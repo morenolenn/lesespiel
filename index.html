@@ -437,7 +437,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 8;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 9;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -927,7 +927,13 @@ function openParents() {
     <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
     <h3>Dificuldade inicial</h3>${seg('startLevel', LEVEL_MS.map((ms, i) => [i + 1, `${i + 1} · ${(ms / 1000).toFixed(1).replace('.', ',')} s`]))}
     <div class="explain">${levelInfo(s.startLevel)}</div>
-    <div class="muted" style="margin-top:6px">Mudar aqui reinicia o nível salvo. Depois o jogo se ajusta sozinho: sobe após 3 acertos de primeira seguidos, desce após 2 rodadas com erro. Cada acerto de primeira também encurta o tempo em ~6%.</div>
+    <div class="muted" style="margin-top:8px; line-height:1.5">
+      Este nível é só o <b>ponto de partida</b>. Durante o jogo a dificuldade muda sozinha:<br>
+      • Acertou de primeira → a próxima palavra fica um pouquinho menos tempo na tela.<br>
+      • Acertou de primeira 3 vezes seguidas → sobe 1 nível.<br>
+      • Errou em 2 rodadas seguidas → desce 1 nível.<br>
+      O jogo lembra onde ela parou e, na próxima vez, começa 1 nível abaixo para aquecer. Escolher um nível aqui apaga essa memória e recomeça do nível escolhido.
+    </div>
     <h3>Conteúdo</h3>${seg('content', [['mix', 'Palavras + frases'], ['words', 'Só palavras'], ['sentences', 'Só frases']])}
     <div class="explain">${s.content === 'mix' ? 'Cerca de 1 em cada 3 rodadas é uma frase; as outras são palavras soltas.' : s.content === 'words' ? 'Só palavras soltas: treina reconhecer a palavra rápido.' : 'Só frases: depois da frase aparecem 4 cenas; as erradas trocam quem faz a ação ou o objeto, então é preciso ler a frase toda.'}</div>
     <h3>Sessão</h3>${seg('rounds', [[5, '5 rodadas'], [10, '10 rodadas'], [15, '15 rodadas']])}
