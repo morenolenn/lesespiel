@@ -183,6 +183,83 @@
 }
 </script>
 
+<!--
+  ===================== FRASES (edite aqui) =====================
+  - "s" (quem) e "o" (o quê/onde) são ids da lista de palavras acima;
+    a cena mostrada é o emoji de "s" + o emoji de "o".
+  - As opções erradas trocam só o "s", só o "o", ou os dois.
+-->
+<script id="sentences" type="application/json">
+{
+  "sentences": [
+    {"id": "s01", "s": "hund", "o": "bett", "de": "Der Hund schläft im Bett.", "pt": "O cachorro dorme na cama."},
+    {"id": "s02", "s": "katze", "o": "baum", "de": "Die Katze sitzt auf dem Baum.", "pt": "O gato está em cima da árvore."},
+    {"id": "s03", "s": "maus", "o": "kaese", "de": "Die Maus isst Käse.", "pt": "O rato come queijo."},
+    {"id": "s04", "s": "mama", "o": "buch", "de": "Mama liest ein Buch.", "pt": "Mamãe lê um livro."},
+    {"id": "s05", "s": "papa", "o": "auto", "de": "Papa fährt Auto.", "pt": "Papai dirige o carro."},
+    {"id": "s06", "s": "lara", "o": "ball", "de": "Lara spielt mit dem Ball.", "pt": "Lara brinca com a bola."},
+    {"id": "s07", "s": "oma", "o": "kuchen", "de": "Oma backt einen Kuchen.", "pt": "Vovó faz um bolo."},
+    {"id": "s08", "s": "opa", "o": "milch", "de": "Opa trinkt Milch.", "pt": "Vovô bebe leite."},
+    {"id": "s09", "s": "baer", "o": "honig", "de": "Der Bär mag Honig.", "pt": "O urso gosta de mel."},
+    {"id": "s10", "s": "affe", "o": "banane", "de": "Der Affe isst eine Banane.", "pt": "O macaco come uma banana."},
+    {"id": "s11", "s": "hase", "o": "karotte", "de": "Der Hase frisst eine Karotte.", "pt": "O coelho come uma cenoura."},
+    {"id": "s12", "s": "baby", "o": "teddy", "de": "Das Baby hat einen Teddy.", "pt": "O bebê tem um ursinho."},
+    {"id": "s13", "s": "fisch", "o": "welle", "de": "Der Fisch schwimmt im Meer.", "pt": "O peixe nada no mar."},
+    {"id": "s14", "s": "biene", "o": "blume", "de": "Die Biene fliegt zur Blume.", "pt": "A abelha voa até a flor."},
+    {"id": "s15", "s": "vogel", "o": "haus", "de": "Der Vogel sitzt auf dem Haus.", "pt": "O pássaro está em cima da casa."},
+    {"id": "s16", "s": "lara", "o": "eis", "de": "Lara isst ein Eis.", "pt": "Lara toma um sorvete."},
+    {"id": "s17", "s": "prinzessin", "o": "krone", "de": "Die Prinzessin trägt eine Krone.", "pt": "A princesa usa uma coroa."},
+    {"id": "s18", "s": "koenig", "o": "schluessel", "de": "Der König hat einen Schlüssel.", "pt": "O rei tem uma chave."},
+    {"id": "s19", "s": "mama", "o": "apfel", "de": "Mama kauft einen Apfel.", "pt": "Mamãe compra uma maçã."},
+    {"id": "s20", "s": "hund", "o": "ball", "de": "Der Hund spielt mit dem Ball.", "pt": "O cachorro brinca com a bola."},
+    {"id": "s21", "s": "katze", "o": "milch", "de": "Die Katze trinkt Milch.", "pt": "O gato bebe leite."},
+    {"id": "s22", "s": "papa", "o": "pizza", "de": "Papa isst Pizza.", "pt": "Papai come pizza."},
+    {"id": "s23", "s": "opa", "o": "fahrrad", "de": "Opa fährt Fahrrad.", "pt": "Vovô anda de bicicleta."},
+    {"id": "s24", "s": "oma", "o": "schirm", "de": "Oma hat einen Schirm.", "pt": "Vovó tem um guarda-chuva."},
+    {"id": "s25", "s": "frosch", "o": "pilz", "de": "Der Frosch sitzt auf dem Pilz.", "pt": "O sapo está sentado no cogumelo."},
+    {"id": "s26", "s": "schnecke", "o": "blatt", "de": "Die Schnecke ist auf dem Blatt.", "pt": "O caracol está na folha."},
+    {"id": "s27", "s": "elefant", "o": "regen", "de": "Der Elefant spielt im Regen.", "pt": "O elefante brinca na chuva."},
+    {"id": "s28", "s": "pinguin", "o": "schnee", "de": "Der Pinguin spielt im Schnee.", "pt": "O pinguim brinca na neve."},
+    {"id": "s29", "s": "einhorn", "o": "regenbogen", "de": "Das Einhorn läuft zum Regenbogen.", "pt": "O unicórnio corre até o arco-íris."},
+    {"id": "s30", "s": "drache", "o": "feuer", "de": "Der Drache spuckt Feuer.", "pt": "O dragão cospe fogo."},
+    {"id": "s31", "s": "eule", "o": "baum", "de": "Die Eule sitzt im Baum.", "pt": "A coruja está na árvore."},
+    {"id": "s32", "s": "fuchs", "o": "zelt", "de": "Der Fuchs schläft im Zelt.", "pt": "A raposa dorme na barraca."},
+    {"id": "s33", "s": "lara", "o": "pinsel", "de": "Lara malt mit dem Pinsel.", "pt": "Lara pinta com o pincel."},
+    {"id": "s34", "s": "baby", "o": "saft", "de": "Das Baby trinkt Saft.", "pt": "O bebê bebe suco."},
+    {"id": "s35", "s": "roboter", "o": "geschenk", "de": "Der Roboter hat ein Geschenk.", "pt": "O robô tem um presente."},
+    {"id": "s36", "s": "geist", "o": "burg", "de": "Der Geist wohnt in der Burg.", "pt": "O fantasma mora no castelo."},
+    {"id": "s37", "s": "kuh", "o": "berg", "de": "Die Kuh steht auf dem Berg.", "pt": "A vaca está na montanha."},
+    {"id": "s38", "s": "pferd", "o": "apfel", "de": "Das Pferd frisst einen Apfel.", "pt": "O cavalo come uma maçã."},
+    {"id": "s39", "s": "schwein", "o": "bett", "de": "Das Schwein liegt im Bett.", "pt": "O porco está deitado na cama."},
+    {"id": "s40", "s": "maus", "o": "haus", "de": "Die Maus wohnt im Haus.", "pt": "O rato mora na casa."},
+    {"id": "s41", "s": "loewe", "o": "baum", "de": "Der Löwe schläft unter dem Baum.", "pt": "O leão dorme debaixo da árvore."},
+    {"id": "s42", "s": "tiger", "o": "ball", "de": "Der Tiger spielt mit dem Ball.", "pt": "O tigre brinca com a bola."},
+    {"id": "s43", "s": "mama", "o": "saft", "de": "Mama trinkt Saft.", "pt": "Mamãe bebe suco."},
+    {"id": "s44", "s": "papa", "o": "brief", "de": "Papa liest einen Brief.", "pt": "Papai lê uma carta."},
+    {"id": "s45", "s": "lara", "o": "ballon", "de": "Lara hat einen Ballon.", "pt": "Lara tem um balão."},
+    {"id": "s46", "s": "oma", "o": "brezel", "de": "Oma isst eine Brezel.", "pt": "Vovó come um pretzel."},
+    {"id": "s47", "s": "opa", "o": "hut", "de": "Opa hat einen Hut.", "pt": "Vovô tem um chapéu."},
+    {"id": "s48", "s": "hund", "o": "auto", "de": "Der Hund sitzt im Auto.", "pt": "O cachorro está sentado no carro."},
+    {"id": "s49", "s": "katze", "o": "stuhl", "de": "Die Katze schläft auf dem Stuhl.", "pt": "O gato dorme na cadeira."},
+    {"id": "s50", "s": "affe", "o": "fahrrad", "de": "Der Affe fährt Fahrrad.", "pt": "O macaco anda de bicicleta."},
+    {"id": "s51", "s": "baer", "o": "ballon", "de": "Der Bär hat einen Ballon.", "pt": "O urso tem um balão."},
+    {"id": "s52", "s": "huhn", "o": "ei", "de": "Das Huhn legt ein Ei.", "pt": "A galinha bota um ovo."},
+    {"id": "s53", "s": "giraffe", "o": "blatt", "de": "Die Giraffe frisst Blätter.", "pt": "A girafa come folhas."},
+    {"id": "s54", "s": "wal", "o": "welle", "de": "Der Wal schwimmt im Meer.", "pt": "A baleia nada no mar."},
+    {"id": "s55", "s": "spinne", "o": "buch", "de": "Die Spinne sitzt auf dem Buch.", "pt": "A aranha está em cima do livro."},
+    {"id": "s56", "s": "hase", "o": "hut", "de": "Der Hase sitzt im Hut.", "pt": "O coelho está dentro do chapéu."},
+    {"id": "s57", "s": "prinzessin", "o": "burg", "de": "Die Prinzessin wohnt in der Burg.", "pt": "A princesa mora no castelo."},
+    {"id": "s58", "s": "koenig", "o": "kuchen", "de": "Der König isst Kuchen.", "pt": "O rei come bolo."},
+    {"id": "s59", "s": "einhorn", "o": "erdbeere", "de": "Das Einhorn frisst eine Erdbeere.", "pt": "O unicórnio come um morango."},
+    {"id": "s60", "s": "lara", "o": "bus", "de": "Lara fährt mit dem Bus.", "pt": "Lara vai de ônibus."},
+    {"id": "s61", "s": "rakete", "o": "mond", "de": "Die Rakete fliegt zum Mond.", "pt": "O foguete voa até a lua."},
+    {"id": "s62", "s": "schiff", "o": "welle", "de": "Das Schiff fährt auf dem Meer.", "pt": "O navio navega no mar."},
+    {"id": "s63", "s": "zug", "o": "berg", "de": "Der Zug fährt zum Berg.", "pt": "O trem vai até a montanha."},
+    {"id": "s64", "s": "schneemann", "o": "muetze", "de": "Der Schneemann trägt eine Mütze.", "pt": "O boneco de neve usa um gorro."}
+  ]
+}
+</script>
+
 <style>
   :root{
     --bg1:#bfe6ff; --bg2:#9fd98a; --panel:#ffffff; --ink:#24324a; --accent:#ff8a3d;
@@ -252,6 +329,8 @@
   #wordbox{position:relative; background:var(--panel); border-radius:36px; box-shadow:var(--shadow); width:100%; min-height:clamp(150px,26vmin,260px); display:flex; align-items:center; justify-content:center; padding:20px 90px;}
   #word{font-size:clamp(64px,14vmin,150px); font-weight:700; letter-spacing:.03em; color:var(--ink);}
   #word.hint{font-size:clamp(48px,9vmin,100px);}
+  #word.sentence{font-size:clamp(34px,6.2vmin,70px); letter-spacing:.01em; line-height:1.25; text-align:center;}
+  .card.scene{font-size:clamp(46px,9.5vmin,96px); gap:.08em;}
   #ready{font-size:clamp(50px,10vmin,100px); animation:pulse .5s ease-in-out infinite alternate;}
   @keyframes pulse{from{transform:scale(.8);opacity:.5}to{transform:scale(1.05);opacity:1}}
   #hear{position:absolute; right:14px; bottom:14px; width:68px; height:68px; border-radius:50%; background:#eef3ff; font-size:32px; display:none;}
@@ -351,6 +430,8 @@
 /* ---------- data ---------- */
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
+const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
+const BYID = Object.fromEntries(WORDS.map(w => [w.id, w]));
 
 // display time per level (ms). Level 1 = muito fácil.
 const LEVEL_MS = [3000, 2400, 1800, 1300, 950, 700];
@@ -377,7 +458,7 @@ const UI = {
 /* ---------- storage ---------- */
 const KEY = 'laras-lesespiel-v1';
 const DEFAULTS = {
-  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, voice: {}, rec: { de: 'tanja', pt: 'francisca' } },
+  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, content: 'mix', voice: {}, rec: { de: 'tanja', pt: 'francisca' } },
   totalStars: 0,
   record: { de: 0, pt: 0 },
   level: { de: null, pt: null },
@@ -491,7 +572,7 @@ function speakHello() {
 let prefetched = '';
 function prefetchVoice() {
   const key = recKey(); if (!key || !location.protocol.startsWith('http') || prefetched === key) return;
-  prefetched = key; const files = ['_hallo', ...WORDS.map(w => w.id)]; let i = 0;
+  prefetched = key; const files = ['_hallo', ...WORDS.map(w => w.id), ...SENTENCES.map(t => t.id)]; let i = 0;
   const next = () => { if (i >= files.length) return; const f = files[i++]; fetch(`audio/${key}/${f}.mp3`).catch(() => {}).finally(next); };
   for (let k = 0; k < 4; k++) next();
 }
@@ -597,27 +678,60 @@ function pickOptions(target) {
   return shuffle([target, ...chosen.slice(0, 3)]);
 }
 
+// ---- frases ----
+const nWords = t => label(t).split(/\s+/).length;
+function showMs() {
+  if (!G.target.s) return G.ms;
+  return Math.max(2500, Math.round(G.ms * (1 + 0.55 * (nWords(G.target) - 1))));   // mais tempo para frases longas
+}
+function pickSentence() {
+  let pool = SENTENCES.filter(t => !G.recent.includes(t.id) && (G.level > 2 || nWords(t) <= 4));
+  if (pool.length < 4) pool = SENTENCES.filter(t => !G.recent.includes(t.id));
+  const weights = pool.map(t => { const s = stat(t.id); return (1 + s.m * 2) / (1 + s.c * 0.4); });
+  let r = Math.random() * weights.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < pool.length; i++) { r -= weights[i]; if (r <= 0) return pool[i]; }
+  return pool[pool.length - 1];
+}
+function sentenceOptions(t) {
+  const subs = shuffle([...new Set(SENTENCES.map(x => x.s))].filter(x => x !== t.s));
+  const objs = shuffle([...new Set(SENTENCES.map(x => x.o))].filter(x => x !== t.o && BYID[x].emoji !== BYID[t.o].emoji));
+  const scene = (id, a, b) => ({ id, pic: [BYID[a].emoji, BYID[b].emoji] });
+  return shuffle([
+    scene(t.id, t.s, t.o),
+    scene('x1', subs[0], t.o),          // outro "quem"
+    scene('x2', t.s, objs[0]),          // outro "o quê"
+    scene('x3', subs[1], objs[1]),      // os dois diferentes
+  ]);
+}
+function wantSentence() {
+  const c = P.settings.content;
+  if (!SENTENCES.length || c === 'words') return false;
+  if (c === 'sentences') return true;
+  return Math.random() < 0.35;
+}
+
 function sessionOver() {
   return G.round >= P.settings.rounds || (Date.now() - G.t0) >= P.settings.maxMin * 60000;
 }
 
 function nextRound() {
   if (sessionOver()) return endSession();
-  G.target = pickTarget();
+  const sentence = wantSentence();
+  G.target = sentence ? pickSentence() : pickTarget();
   G.recent = [G.target.id, ...G.recent].slice(0, 8);
-  G.options = pickOptions(G.target);
+  G.options = sentence ? sentenceOptions(G.target) : pickOptions(G.target);
   G.attempt = 0;
   stat(G.target.id).s++;
   renderDots();
   $('grid').innerHTML = '';
-  flashWord(G.ms);
+  flashWord(showMs());
 }
 
 // ready-star → word for `ms` → choices
 function flashWord(ms) {
   G.locked = true;
   const word = $('word'), ready = $('ready'), hear = $('hear');
-  word.classList.remove('hint'); word.textContent = ''; ready.style.display = 'block';
+  word.classList.remove('hint'); word.classList.toggle('sentence', !!G.target.s); word.textContent = ''; ready.style.display = 'block';
   hear.classList.remove('on');
   $('grid').style.visibility = 'hidden';
   later(() => {
@@ -634,7 +748,8 @@ function flashWord(ms) {
 function cardEl(w) {
   const b = document.createElement('button');
   b.className = 'card pop'; b.dataset.id = w.id; b.setAttribute('aria-label', 'Bild');
-  if (w.img) { const im = document.createElement('img'); im.src = w.img; im.alt = ''; b.appendChild(im); }
+  if (w.pic) { b.classList.add('scene'); w.pic.forEach(e => { const sp = document.createElement('span'); sp.textContent = e; b.appendChild(sp); }); }
+  else if (w.img) { const im = document.createElement('img'); im.src = w.img; im.alt = ''; b.appendChild(im); }
   else b.textContent = w.emoji;
   b.addEventListener('click', () => pick(b, w));
   return b;
@@ -662,7 +777,7 @@ function pick(card, w) {
   card.classList.add('nope');
   sfx.soft();
   save();
-  if (G.attempt === 1) later(() => flashWord(Math.min(5000, G.ms * 1.6)), 700);
+  if (G.attempt === 1) later(() => flashWord(Math.min(G.target.s ? 20000 : 5000, Math.round(showMs() * 1.6))), 700);
   else later(showChoices, 500);
 }
 
@@ -766,6 +881,8 @@ function openWordList() {
     ${seen.length ? `<table><tr><th>Palavra</th><th>Vista</th><th>De primeira</th><th>Erros</th></tr>${seen.map(row).join('')}</table>` : '<div class="muted">Nenhuma ainda.</div>'}
     <h3>Ainda não apareceram</h3>
     <div style="line-height:1.9">${unseen.map(({ w }) => `<span style="white-space:nowrap; margin-right:14px">${w.emoji} ${w[l] || w.de}</span>`).join('') || '<span class="muted">Todas já apareceram! 🎉</span>'}</div>
+    <h3>Frases (${SENTENCES.length})</h3>
+    <table><tr><th>Frase</th><th>Vista</th><th>De primeira</th><th>Erros</th></tr>${SENTENCES.map(t => ({ w: t, x: st[t.id] || { s: 0, c: 0, m: 0 } })).filter(r => r.x.s > 0).sort((a, b) => (b.x.m - b.x.c * .5) - (a.x.m - a.x.c * .5)).map(({ w, x }) => `<tr><td>${BYID[w.s].emoji}${BYID[w.o].emoji} ${w[l]}</td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`).join('') || '<tr><td class="muted" colspan="4">Nenhuma frase vista ainda.</td></tr>'}</table>
     <div class="muted" style="margin-top:16px">Para trocar as palavras, edite a lista JSON no topo do arquivo index.html.</div>
     <div class="row"><span></span><button class="ok" id="backParents2">‹ Voltar</button></div>`;
   $('sheet').scrollTop = 0;
@@ -784,6 +901,7 @@ function openParents() {
     <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
     <h3>Dificuldade inicial</h3>${seg('startLevel', LEVEL_MS.map((ms, i) => [i + 1, `${i + 1} · ${(ms / 1000).toFixed(1).replace('.', ',')} s`]))}
     <div class="muted" style="margin-top:6px">Mudar aqui reinicia o nível salvo. Depois o jogo se ajusta sozinho: sobe após 3 acertos de primeira seguidos, desce após 2 rodadas com erro.</div>
+    <h3>Conteúdo</h3>${seg('content', [['mix', 'Palavras + frases'], ['words', 'Só palavras'], ['sentences', 'Só frases']])}
     <h3>Sessão</h3>${seg('rounds', [[5, '5 rodadas'], [10, '10 rodadas'], [15, '15 rodadas']])}
     <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
     <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
