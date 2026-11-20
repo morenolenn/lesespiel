@@ -262,6 +262,7 @@
 
 <style>
   :root{
+    --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px); --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
     --bg1:#bfe6ff; --bg2:#9fd98a; --panel:#ffffff; --ink:#24324a; --accent:#ff8a3d;
     --good:#3bb273; --soft:#ffffffcc; --shadow:0 8px 0 rgba(0,0,0,.12);
     --dot:#ffffff88;
@@ -284,10 +285,9 @@
     background:linear-gradient(180deg,var(--bg1) 0%, var(--bg1) 55%, var(--bg2) 100%);
     user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
     touch-action:manipulation;
-    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   button{font:inherit; color:inherit; border:0; cursor:pointer; touch-action:manipulation;}
-  .screen{position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));}
+  .screen{position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:calc(var(--sat) + 16px) calc(var(--sar) + 16px) calc(var(--sab) + 16px) calc(var(--sal) + 16px);}
   .screen.on{display:flex;}
 
   /* deco */
@@ -309,13 +309,13 @@
   .avatar{width:clamp(150px,30vmin,280px); height:clamp(150px,30vmin,280px); border-radius:50%; object-fit:cover; border:8px solid #fff; box-shadow:var(--shadow); display:block; animation:bob 2.4s ease-in-out infinite;}
   #camBtn{position:absolute; right:-6px; bottom:-6px; width:58px; height:58px; border-radius:50%; background:#fff; font-size:28px; box-shadow:0 4px 0 rgba(0,0,0,.12);}
   /* gear (parents) */
-  #gear{position:fixed; top:calc(env(safe-area-inset-top, 0px) + 28px); right:calc(env(safe-area-inset-right, 0px) + 20px); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
+  #gear{position:fixed; top:calc(var(--sat) + 28px); right:calc(var(--sar) + 20px); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
   #gear svg{position:absolute; inset:0; transform:rotate(-90deg);}
   #gear circle{fill:none; stroke:var(--accent); stroke-width:5; stroke-dasharray:189; stroke-dashoffset:189;}
   #gear.hold circle{transition:stroke-dashoffset 1.2s linear; stroke-dashoffset:0;}
 
   /* game */
-  #topbar{position:absolute; top:calc(env(safe-area-inset-top, 0px) + 24px); left:12px; right:12px; display:flex; align-items:center; gap:12px;}
+  #topbar{position:absolute; top:calc(var(--sat) + 24px); left:calc(var(--sal) + 16px); right:calc(var(--sar) + 16px); display:flex; align-items:center; gap:12px;}
   .iconbtn{width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; flex:none;}
   #dots{flex:1; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;}
   #dots i{width:22px; height:22px; border-radius:50%; background:var(--dot); display:block; transition:all .3s;}
@@ -325,7 +325,7 @@
   #starcount{background:var(--soft); border-radius:999px; padding:6px 16px; font-size:30px; font-weight:800; flex:none; min-width:110px; text-align:center;}
   .theme-weltraum #starcount{color:#fff;}
 
-  #stage{width:min(92vw,900px); display:flex; flex-direction:column; align-items:center; gap:3vmin;}
+  #stage{width:min(92vw,1060px); display:flex; flex-direction:column; align-items:center; gap:3vmin;}
   #wordbox{position:relative; background:var(--panel); border-radius:36px; box-shadow:var(--shadow); width:100%; min-height:clamp(150px,26vmin,260px); display:flex; align-items:center; justify-content:center; padding:20px 90px;}
   #word{font-size:clamp(64px,14vmin,150px); font-weight:700; letter-spacing:.03em; color:var(--ink);}
   #word.hint{font-size:clamp(48px,9vmin,100px);}
@@ -336,9 +336,9 @@
   #hear{position:absolute; right:14px; bottom:14px; width:68px; height:68px; border-radius:50%; background:#eef3ff; font-size:32px; display:none;}
   #hear.on{display:block;}
 
-  #game{padding-top:calc(env(safe-area-inset-top, 0px) + 100px);}
+  #game{padding-top:calc(var(--sat) + 100px);}
   /* 2x2 grid: square, so its height = width → limit by available height */
-  #grid{display:grid; grid-template-columns:repeat(2,1fr); gap:3vmin; width:min(100%, calc(100vh - 100px - clamp(150px,26vmin,260px) - 12vmin - 32px)); width:min(100%, calc(100dvh - 100px - clamp(150px,26vmin,260px) - 12vmin - 32px));}
+  #grid{display:grid; grid-template-columns:repeat(2,1fr); gap:3vmin; width:min(100%, calc(100vh - 100px - var(--sat) - var(--sab) - clamp(150px,26vmin,260px) - 12vmin - 32px)); width:min(100%, calc(100dvh - 100px - var(--sat) - var(--sab) - clamp(150px,26vmin,260px) - 12vmin - 32px));}
   @media (min-aspect-ratio: 4/3){ #grid{grid-template-columns:repeat(4,1fr); width:100%;} }
   .card{background:var(--panel); border-radius:32px; box-shadow:var(--shadow); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:clamp(70px,16vmin,150px); transition:transform .15s, opacity .4s; overflow:hidden;}
   .card img{width:85%; height:85%; object-fit:cover; border-radius:22px;}
@@ -359,9 +359,9 @@
   #confetti{position:fixed; inset:0; pointer-events:none; z-index:4;}
 
   /* parents */
-  #parents{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:20; padding:16px;}
+  #parents{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:20; padding:calc(var(--sat) + 20px) calc(var(--sar) + 16px) calc(var(--sab) + 20px) calc(var(--sal) + 16px);}
   #parents.on{display:flex;}
-  .sheet{background:#fff; color:#24324a; border-radius:24px; width:min(720px,100%); max-height:92vh; overflow:auto; padding:24px; font-size:18px; -webkit-overflow-scrolling:touch; user-select:text; -webkit-user-select:text;}
+  .sheet{background:#fff; color:#24324a; border-radius:24px; width:min(720px,100%); max-height:100%; overflow:auto; padding:24px; font-size:18px; -webkit-overflow-scrolling:touch; user-select:text; -webkit-user-select:text;}
   .sheet h2{margin:0 0 4px; font-size:26px;}
   .sheethead{position:sticky; top:-24px; margin:-24px -24px 8px; padding:20px 24px 10px; background:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:2;}
   .sheethead h2{margin:0;}
