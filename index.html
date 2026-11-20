@@ -227,14 +227,18 @@
   .info{margin-top:3vmin; background:var(--soft); color:var(--ink); padding:.5em 1.1em; border-radius:20px; font-size:clamp(20px,3.4vmin,32px); font-weight:700;}
   .theme-weltraum .info{color:#fff;}
 
+  /* avatar */
+  .avatarwrap{position:relative; display:inline-block;}
+  .avatar{width:clamp(150px,30vmin,280px); height:clamp(150px,30vmin,280px); border-radius:50%; object-fit:cover; border:8px solid #fff; box-shadow:var(--shadow); display:block; animation:bob 2.4s ease-in-out infinite;}
+  #camBtn{position:absolute; right:-6px; bottom:-6px; width:58px; height:58px; border-radius:50%; background:#fff; font-size:28px; box-shadow:0 4px 0 rgba(0,0,0,.12);}
   /* gear (parents) */
-  #gear{position:fixed; top:max(12px,env(safe-area-inset-top)); right:max(12px,env(safe-area-inset-right)); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
+  #gear{position:fixed; top:calc(env(safe-area-inset-top, 0px) + 28px); right:calc(env(safe-area-inset-right, 0px) + 20px); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
   #gear svg{position:absolute; inset:0; transform:rotate(-90deg);}
   #gear circle{fill:none; stroke:var(--accent); stroke-width:5; stroke-dasharray:189; stroke-dashoffset:189;}
   #gear.hold circle{transition:stroke-dashoffset 1.2s linear; stroke-dashoffset:0;}
 
   /* game */
-  #topbar{position:absolute; top:max(12px,env(safe-area-inset-top)); left:12px; right:12px; display:flex; align-items:center; gap:12px;}
+  #topbar{position:absolute; top:calc(env(safe-area-inset-top, 0px) + 24px); left:12px; right:12px; display:flex; align-items:center; gap:12px;}
   .iconbtn{width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; flex:none;}
   #dots{flex:1; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;}
   #dots i{width:22px; height:22px; border-radius:50%; background:var(--dot); display:block; transition:all .3s;}
@@ -253,9 +257,9 @@
   #hear{position:absolute; right:14px; bottom:14px; width:68px; height:68px; border-radius:50%; background:#eef3ff; font-size:32px; display:none;}
   #hear.on{display:block;}
 
-  #game{padding-top:calc(max(12px,env(safe-area-inset-top)) + 84px);}
+  #game{padding-top:calc(env(safe-area-inset-top, 0px) + 100px);}
   /* 2x2 grid: square, so its height = width → limit by available height */
-  #grid{display:grid; grid-template-columns:repeat(2,1fr); gap:3vmin; width:min(100%, calc(100vh - 84px - clamp(150px,26vmin,260px) - 12vmin - 32px)); width:min(100%, calc(100dvh - 84px - clamp(150px,26vmin,260px) - 12vmin - 32px));}
+  #grid{display:grid; grid-template-columns:repeat(2,1fr); gap:3vmin; width:min(100%, calc(100vh - 100px - clamp(150px,26vmin,260px) - 12vmin - 32px)); width:min(100%, calc(100dvh - 100px - clamp(150px,26vmin,260px) - 12vmin - 32px));}
   @media (min-aspect-ratio: 4/3){ #grid{grid-template-columns:repeat(4,1fr); width:100%;} }
   .card{background:var(--panel); border-radius:32px; box-shadow:var(--shadow); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:clamp(70px,16vmin,150px); transition:transform .15s, opacity .4s; overflow:hidden;}
   .card img{width:85%; height:85%; object-fit:cover; border-radius:22px;}
@@ -301,7 +305,8 @@
 <!-- HOME -->
 <section id="home" class="screen on">
   <h1 class="title" id="homeTitle">Laras Lesespiel</h1>
-  <div class="mascot" id="homeMascot">🦊</div>
+  <div class="avatarwrap"><div class="mascot" id="homeMascot">🦊</div><button id="camBtn" aria-label="Foto">📷</button></div>
+  <input type="file" id="photoInput" accept="image/*" hidden>
   <button class="bigbtn" id="startBtn">Los! ▶</button>
   <div class="info" id="homeInfo"></div>
 </section>
@@ -372,7 +377,7 @@ const UI = {
 /* ---------- storage ---------- */
 const KEY = 'laras-lesespiel-v1';
 const DEFAULTS = {
-  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, voice: {} },
+  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, voice: {}, rec: { de: 'tanja', pt: 'francisca' } },
   totalStars: 0,
   record: { de: 0, pt: 0 },
   level: { de: null, pt: null },
@@ -450,6 +455,46 @@ function pickVoice(code) {
   const all = voices.filter(v => v.lang && v.lang.replace('_', '-').startsWith(code.slice(0, 2)));
   return (chosen && all.find(v => v.voiceURI === chosen)) || voicesFor(code)[0] || all[0] || null;
 }
+// ---- vozes gravadas (neurais), arquivos em audio/<voz>/<id>.mp3 ----
+const RECORDED = {
+  de: [['tanja', 'Tanja'], ['ingrid', 'Ingrid (Österreich)'], ['christoph', 'Christoph']],
+  pt: [['francisca', 'Francisca']],
+};
+const clipCache = new Map();
+function recKey() { const k = P.settings.rec && P.settings.rec[lang()]; return RECORDED[lang()].some(r => r[0] === k) ? k : null; }
+async function loadClip(key, file) {
+  const url = `audio/${key}/${file}.mp3`;
+  if (!clipCache.has(url)) clipCache.set(url, fetch(url).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
+    .then(buf => new Promise((ok, no) => audio().decodeAudioData(buf, ok, no))).catch(() => { clipCache.delete(url); return null; }));
+  return clipCache.get(url);
+}
+let currentClip = null;
+async function playClip(key, file) {
+  const ac = audio(); if (!ac) return false;
+  const buf = await loadClip(key, file); if (!buf) return false;
+  try { if (currentClip) currentClip.stop(); } catch (e) {}
+  const src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination); src.start(); currentClip = src;
+  return true;
+}
+function speakWord(w) {
+  const key = recKey();
+  if (!key) return speak(label(w));
+  try { speechSynthesis.cancel(); } catch (e) {}
+  playClip(key, w.id).then(ok => { if (!ok) speak(label(w)); });
+}
+function speakHello() {
+  const key = recKey(); const txt = lang() === 'de' ? 'Hallo Lara! Super gemacht!' : 'Oi Lara! Muito bem!';
+  if (!key) return speak(txt);
+  playClip(key, '_hallo').then(ok => { if (!ok) speak(txt); });
+}
+// baixa os áudios da voz escolhida em segundo plano (ficam guardados para o modo offline)
+let prefetched = '';
+function prefetchVoice() {
+  const key = recKey(); if (!key || !location.protocol.startsWith('http') || prefetched === key) return;
+  prefetched = key; const files = ['_hallo', ...WORDS.map(w => w.id)]; let i = 0;
+  const next = () => { if (i >= files.length) return; const f = files[i++]; fetch(`audio/${key}/${f}.mp3`).catch(() => {}).finally(next); };
+  for (let k = 0; k < 4; k++) next();
+}
 function speak(text) {
   if (!('speechSynthesis' in window)) return;
   try {
@@ -463,11 +508,35 @@ function speak(text) {
   } catch (e) {}
 }
 
+/* ---------- avatar (foto da Lara) ---------- */
+const AVATAR_KEY = 'laras-lesespiel-avatar';
+function getAvatar() { try { return localStorage.getItem(AVATAR_KEY); } catch (e) { return null; } }
+function renderAvatar(el, mascot) {
+  const a = getAvatar();
+  el.className = a ? '' : 'mascot';
+  el.innerHTML = a ? `<img class="avatar" src="${a}" alt="">` : mascot;
+}
+function pickPhoto() { $('photoInput').value = ''; $('photoInput').click(); }
+$('photoInput').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0]; if (!file) return;
+  const url = URL.createObjectURL(file); const img = new Image();
+  img.onload = () => {
+    const S = 360, c = document.createElement('canvas'); c.width = c.height = S;
+    const side = Math.min(img.naturalWidth, img.naturalHeight);
+    c.getContext('2d').drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, 0, 0, S, S);
+    URL.revokeObjectURL(url);
+    try { localStorage.setItem(AVATAR_KEY, c.toDataURL('image/jpeg', 0.85)); } catch (err) { alert('Não consegui salvar a foto neste aparelho.'); }
+    applyTheme(); if ($('parents').classList.contains('on')) openParents();
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); alert('Não consegui abrir essa foto.'); };
+  img.src = url;
+});
+
 /* ---------- theme / home ---------- */
 function applyTheme() {
   const th = THEMES[P.settings.theme] || THEMES.wiese;
   document.body.className = th.cls;
-  $('homeMascot').textContent = th.mascot; $('endMascot').textContent = th.mascot;
+  renderAvatar($('homeMascot'), th.mascot); renderAvatar($('endMascot'), th.mascot);
   const deco = $('deco'); deco.innerHTML = '';
   const spots = [[6, 12], [86, 18], [10, 70], [88, 66], [48, 88], [24, 40], [72, 42]];
   spots.forEach((p, i) => { const s = document.createElement('span'); s.textContent = th.deco[i % th.deco.length]; s.style.left = p[0] + '%'; s.style.top = p[1] + '%'; s.style.animationDelay = (i * -1.3) + 's'; deco.appendChild(s); });
@@ -578,7 +647,7 @@ function showChoices() {
   if (G.attempt >= 2) {               // 2ª ajuda: a palavra fica na tela e é falada
     const word = $('word'); word.textContent = label(G.target); word.classList.add('hint');
     $('ready').style.display = 'none'; $('hear').classList.add('on');
-    speak(label(G.target));
+    speakWord(G.target);
   }
   G.locked = false;
 }
@@ -601,7 +670,7 @@ function success(card) {
   G.locked = true;
   card.classList.add('yes');
   sfx.yes();
-  speak(label(G.target));
+  speakWord(G.target);
   const first = G.attempt === 0;
   if (first) {
     G.stars++; stat(G.target.id).c++;
@@ -683,13 +752,29 @@ function voiceButtons() {
   const cur = pickVoice(code);
   return list.slice(0, 12).map(v => `<button data-uri="${v.voiceURI.replace(/"/g, '&quot;')}" class="${cur && cur.voiceURI === v.voiceURI ? 'sel' : ''}">${v.name}</button>`).join('');
 }
+function openWordList() {
+  const l = P.settings.lang, st = P.stats[l];
+  const all = WORDS.map(w => ({ w, x: st[w.id] || { s: 0, c: 0, m: 0 } }));
+  const seen = all.filter(r => r.x.s > 0).sort((a, b) => (b.x.m - b.x.c * .5) - (a.x.m - a.x.c * .5));
+  const unseen = all.filter(r => r.x.s === 0);
+  const row = ({ w, x }) => `<tr><td>${w.emoji} ${w[l] || w.de}</td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`;
+  $('sheet').innerHTML = `
+    <div class="seg"><button id="backParents">‹ Voltar</button></div>
+    <h2 style="margin-top:14px">Palavras (${WORDS.length}, ${l.toUpperCase()})</h2>
+    <div class="muted">Já vistas: ${seen.length} · Ainda não apareceram: ${unseen.length}</div>
+    <h3>Já vistas — mais difíceis primeiro</h3>
+    ${seen.length ? `<table><tr><th>Palavra</th><th>Vista</th><th>De primeira</th><th>Erros</th></tr>${seen.map(row).join('')}</table>` : '<div class="muted">Nenhuma ainda.</div>'}
+    <h3>Ainda não apareceram</h3>
+    <div style="line-height:1.9">${unseen.map(({ w }) => `<span style="white-space:nowrap; margin-right:14px">${w.emoji} ${w[l] || w.de}</span>`).join('') || '<span class="muted">Todas já apareceram! 🎉</span>'}</div>
+    <div class="muted" style="margin-top:16px">Para trocar as palavras, edite a lista JSON no topo do arquivo index.html.</div>
+    <div class="row"><span></span><button class="ok" id="backParents2">‹ Voltar</button></div>`;
+  $('sheet').scrollTop = 0;
+  $('backParents').onclick = $('backParents2').onclick = openParents;
+}
 function openParents() {
   const s = P.settings;
   const seg = (key, opts) => `<div class="seg" data-key="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(s[key]) === String(v) ? 'sel' : ''}">${l}</button>`).join('')}</div>`;
   const st = P.stats[s.lang];
-  const rows = WORDS.map(w => ({ w, x: st[w.id] || { s: 0, c: 0, m: 0 } }))
-    .sort((a, b) => (b.x.m - b.x.c * .5) - (a.x.m - a.x.c * .5))
-    .map(({ w, x }) => `<tr><td>${w.emoji} ${w[s.lang] || w.de}</td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`).join('');
   const sess = P.sessions.slice(0, 10).map(q => `<tr><td>${new Date(q.d).toLocaleDateString('pt-BR')} ${new Date(q.d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</td><td>${q.lang.toUpperCase()}</td><td>⭐ ${q.stars}/${q.rounds}</td><td>nível ${q.lvl0}→${q.lvl1}</td><td>${(q.ms / 1000).toFixed(2)} s</td></tr>`).join('') || '<tr><td class="muted">Nenhuma sessão ainda.</td></tr>';
   const curLvl = P.level[s.lang];
   $('sheet').innerHTML = `
@@ -704,23 +789,31 @@ function openParents() {
     <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
     <div style="height:8px"></div>${seg('rate', [[0.7, 'Voz lenta'], [0.85, 'Voz normal'], [1, 'Voz rápida']])}
     <h3>Voz (${s.lang.toUpperCase()})</h3>
-    <div class="muted">Toque numa voz para ouvir e escolher. As vozes Premium/Melhorada são as mais naturais.</div>
-    <div class="seg" id="voiceList" style="margin-top:8px">${voiceButtons()}</div>
+    <div class="muted">Toque numa voz para ouvir e escolher.</div>
+    <div class="seg" id="recList" style="margin-top:8px">${[...RECORDED[s.lang], ['system', 'Voz do iPad']].map(([k, n]) => `<button data-rec="${k}" class="${(recKey() || 'system') === k ? 'sel' : ''}">${k === 'system' ? '📱 ' : '🎙️ '}${n}</button>`).join('')}</div>
+    ${recKey() ? '' : `<div class="muted" style="margin-top:10px">Vozes do iPad (a velocidade da voz vale só para estas):</div><div class="seg" id="voiceList" style="margin-top:8px">${voiceButtons()}</div>`}
+    <h3>Foto da Lara</h3>
+    <div class="seg"><button id="photoPick">📷 ${getAvatar() ? 'Trocar foto' : 'Escolher foto'}</button>${getAvatar() ? '<button id="photoDel">Remover foto (volta o mascote)</button>' : ''}</div>
     <h3>Últimas sessões</h3>
     <table><tr><th>Quando</th><th></th><th>Estrelas</th><th>Nível</th><th>Tempo final</th></tr>${sess}</table>
-    <h3>Palavras (${WORDS.length}, ${s.lang.toUpperCase()}) — mais difíceis primeiro</h3>
-    <table><tr><th>Palavra</th><th>Vista</th><th>De primeira</th><th>Erros</th></tr>${rows}</table>
-    <div class="muted" style="margin-top:10px">Para trocar as palavras, abra o arquivo HTML e edite a lista JSON no topo.</div>
+    <h3>Palavras</h3>
+    <div class="seg"><button id="wordsBtn">📚 Ver as ${WORDS.length} palavras e estatísticas ›</button></div>
     <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button><button class="ok" id="closeParents">Fechar</button></div>`;
   $('sheet').querySelectorAll('.seg').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.rec) {
+      P.settings.rec = Object.assign({}, P.settings.rec, { [lang()]: b.dataset.rec });
+      save(); speakHello(); prefetchVoice(); openParents();
+      return;
+    }
     if (b.dataset.uri) {
       const two = lang();
       P.settings.voice = Object.assign({}, P.settings.voice, { [two]: b.dataset.uri });
-      save(); speak(two === 'de' ? 'Hallo Lara! Super gemacht!' : 'Oi Lara! Muito bem!');
+      save(); speakHello();
       g.querySelectorAll('button').forEach(x => x.classList.toggle('sel', x === b));
       return;
     }
+    if (!g.dataset.key) return;
     const key = g.dataset.key; let v = b.dataset.v;
     if (v === 'true' || v === 'false') v = v === 'true'; else if (!isNaN(Number(v))) v = Number(v);
     P.settings[key] = v;
@@ -728,6 +821,9 @@ function openParents() {
     save(); applyTheme(); openParents();
   }));
   $('resetBtn').onclick = () => { if (confirm('Apagar estrelas, recordes e estatísticas?')) { const keep = P.settings; P = clone(DEFAULTS); P.settings = keep; save(); openParents(); } };
+  $('wordsBtn').onclick = openWordList;
+  $('photoPick').onclick = pickPhoto;
+  if ($('photoDel')) $('photoDel').onclick = () => { try { localStorage.removeItem(AVATAR_KEY); } catch (e) {} applyTheme(); openParents(); };
   $('closeParents').onclick = () => { $('parents').classList.remove('on'); renderHome(); };
   $('parents').classList.add('on');
 }
@@ -744,15 +840,17 @@ function openParents() {
 
 /* ---------- wiring ---------- */
 $('startBtn').addEventListener('click', startSession);
+$('camBtn').addEventListener('click', pickPhoto);
 $('againBtn').addEventListener('click', startSession);
 $('homeBtn').addEventListener('click', () => { clearTimers(); try { speechSynthesis.cancel(); } catch (e) {} renderHome(); });
-$('hear').addEventListener('click', e => { e.stopPropagation(); if (G && G.target) speak(label(G.target)); });
+$('hear').addEventListener('click', e => { e.stopPropagation(); if (G && G.target) speakWord(G.target); });
 document.addEventListener('gesturestart', e => e.preventDefault());
 
 // debug hook for testing
 window.__lesespiel = { get G() { return G; }, get P() { return P; } };
 
 renderHome();
+prefetchVoice();
 
 // offline: guarda o jogo no iPad depois da primeira abertura
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
