@@ -1,0 +1,14 @@
+{
+  "name": "Lesespiel",
+  "short_name": "Lesespiel",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#ffd6ec",
+  "theme_color": "#ffd6ec",
+  "icons": [
+    {"src": "icon-180.png", "sizes": "180x180", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

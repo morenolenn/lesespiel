@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lesespiel">
+<meta name="theme-color" content="#ffd6ec">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Laras Lesespiel</title>
+
+<!--
+  ===================== LISTA DE PALAVRAS (edite aqui) =====================
+  - "de": palavra em alemão, "pt": palavra em português
+  - "emoji": a imagem mostrada (qualquer emoji)
+  - opcional "img": caminho ou data-URL de uma foto (ex. foto da Oma);
+    se existir, é usada no lugar do emoji
+  - O nível de cada palavra é calculado pelo tamanho (curtas = mais fáceis).
+  - Troque Mama/Papa/Oma/Opa pelos nomes reais da família, se quiser.
+-->
+<script id="words" type="application/json">
+{
+  "words": [
+    {"id": "mama", "emoji": "👩", "de": "Mama", "pt": "Mamãe", "group": "Familie"},
+    {"id": "papa", "emoji": "👨", "de": "Papa", "pt": "Papai", "group": "Familie"},
+    {"id": "oma", "emoji": "👵", "de": "Oma", "pt": "Vovó", "group": "Familie"},
+    {"id": "opa", "emoji": "👴", "de": "Opa", "pt": "Vovô", "group": "Familie"},
+    {"id": "lara", "emoji": "👧", "de": "Lara", "pt": "Lara", "group": "Familie"},
+    {"id": "baby", "emoji": "👶", "de": "Baby", "pt": "Bebê", "group": "Familie"},
+    {"id": "prinzessin", "emoji": "👸", "de": "Prinzessin", "pt": "Princesa", "group": "Familie"},
+    {"id": "koenig", "emoji": "🤴", "de": "König", "pt": "Rei", "group": "Familie"},
+    {"id": "hand", "emoji": "✋", "de": "Hand", "pt": "Mão", "group": "Körper"},
+    {"id": "fuss", "emoji": "🦶", "de": "Fuß", "pt": "Pé", "group": "Körper"},
+    {"id": "auge", "emoji": "👁️", "de": "Auge", "pt": "Olho", "group": "Körper"},
+    {"id": "ohr", "emoji": "👂", "de": "Ohr", "pt": "Orelha", "group": "Körper"},
+    {"id": "nase", "emoji": "👃", "de": "Nase", "pt": "Nariz", "group": "Körper"},
+    {"id": "mund", "emoji": "👄", "de": "Mund", "pt": "Boca", "group": "Körper"},
+    {"id": "zahn", "emoji": "🦷", "de": "Zahn", "pt": "Dente", "group": "Körper"},
+    {"id": "herz", "emoji": "❤️", "de": "Herz", "pt": "Coração", "group": "Körper"},
+    {"id": "hund", "emoji": "🐶", "de": "Hund", "pt": "Cachorro", "group": "Tiere"},
+    {"id": "katze", "emoji": "🐱", "de": "Katze", "pt": "Gato", "group": "Tiere"},
+    {"id": "maus", "emoji": "🐭", "de": "Maus", "pt": "Rato", "group": "Tiere"},
+    {"id": "fisch", "emoji": "🐟", "de": "Fisch", "pt": "Peixe", "group": "Tiere"},
+    {"id": "kuh", "emoji": "🐮", "de": "Kuh", "pt": "Vaca", "group": "Tiere"},
+    {"id": "pferd", "emoji": "🐴", "de": "Pferd", "pt": "Cavalo", "group": "Tiere"},
+    {"id": "schwein", "emoji": "🐷", "de": "Schwein", "pt": "Porco", "group": "Tiere"},
+    {"id": "schaf", "emoji": "🐑", "de": "Schaf", "pt": "Ovelha", "group": "Tiere"},
+    {"id": "ziege", "emoji": "🐐", "de": "Ziege", "pt": "Cabra", "group": "Tiere"},
+    {"id": "huhn", "emoji": "🐔", "de": "Huhn", "pt": "Galinha", "group": "Tiere"},
+    {"id": "ente", "emoji": "🦆", "de": "Ente", "pt": "Pato", "group": "Tiere"},
+    {"id": "hase", "emoji": "🐰", "de": "Hase", "pt": "Coelho", "group": "Tiere"},
+    {"id": "baer", "emoji": "🐻", "de": "Bär", "pt": "Urso", "group": "Tiere"},
+    {"id": "loewe", "emoji": "🦁", "de": "Löwe", "pt": "Leão", "group": "Tiere"},
+    {"id": "tiger", "emoji": "🐯", "de": "Tiger", "pt": "Tigre", "group": "Tiere"},
+    {"id": "affe", "emoji": "🐵", "de": "Affe", "pt": "Macaco", "group": "Tiere"},
+    {"id": "elefant", "emoji": "🐘", "de": "Elefant", "pt": "Elefante", "group": "Tiere"},
+    {"id": "giraffe", "emoji": "🦒", "de": "Giraffe", "pt": "Girafa", "group": "Tiere"},
+    {"id": "zebra", "emoji": "🦓", "de": "Zebra", "pt": "Zebra", "group": "Tiere"},
+    {"id": "frosch", "emoji": "🐸", "de": "Frosch", "pt": "Sapo", "group": "Tiere"},
+    {"id": "schlange", "emoji": "🐍", "de": "Schlange", "pt": "Cobra", "group": "Tiere"},
+    {"id": "igel", "emoji": "🦔", "de": "Igel", "pt": "Ouriço", "group": "Tiere"},
+    {"id": "fuchs", "emoji": "🦊", "de": "Fuchs", "pt": "Raposa", "group": "Tiere"},
+    {"id": "wolf", "emoji": "🐺", "de": "Wolf", "pt": "Lobo", "group": "Tiere"},
+    {"id": "eule", "emoji": "🦉", "de": "Eule", "pt": "Coruja", "group": "Tiere"},
+    {"id": "vogel", "emoji": "🐦", "de": "Vogel", "pt": "Pássaro", "group": "Tiere"},
+    {"id": "biene", "emoji": "🐝", "de": "Biene", "pt": "Abelha", "group": "Tiere"},
+    {"id": "marienkaefer", "emoji": "🐞", "de": "Marienkäfer", "pt": "Joaninha", "group": "Tiere"},
+    {"id": "schnecke", "emoji": "🐌", "de": "Schnecke", "pt": "Caracol", "group": "Tiere"},
+    {"id": "spinne", "emoji": "🕷️", "de": "Spinne", "pt": "Aranha", "group": "Tiere"},
+    {"id": "wal", "emoji": "🐳", "de": "Wal", "pt": "Baleia", "group": "Tiere"},
+    {"id": "hai", "emoji": "🦈", "de": "Hai", "pt": "Tubarão", "group": "Tiere"},
+    {"id": "krake", "emoji": "🐙", "de": "Krake", "pt": "Polvo", "group": "Tiere"},
+    {"id": "pinguin", "emoji": "🐧", "de": "Pinguin", "pt": "Pinguim", "group": "Tiere"},
+    {"id": "schildkroete", "emoji": "🐢", "de": "Schildkröte", "pt": "Tartaruga", "group": "Tiere"},
+    {"id": "krokodil", "emoji": "🐊", "de": "Krokodil", "pt": "Jacaré", "group": "Tiere"},
+    {"id": "kamel", "emoji": "🐫", "de": "Kamel", "pt": "Camelo", "group": "Tiere"},
+    {"id": "delfin", "emoji": "🐬", "de": "Delfin", "pt": "Golfinho", "group": "Tiere"},
+    {"id": "schmetterling", "emoji": "🦋", "de": "Schmetterling", "pt": "Borboleta", "group": "Tiere"},
+    {"id": "ameise", "emoji": "🐜", "de": "Ameise", "pt": "Formiga", "group": "Tiere"},
+    {"id": "drache", "emoji": "🐉", "de": "Drache", "pt": "Dragão", "group": "Tiere"},
+    {"id": "einhorn", "emoji": "🦄", "de": "Einhorn", "pt": "Unicórnio", "group": "Tiere"},
+    {"id": "apfel", "emoji": "🍎", "de": "Apfel", "pt": "Maçã", "group": "Essen"},
+    {"id": "eis", "emoji": "🍦", "de": "Eis", "pt": "Sorvete", "group": "Essen"},
+    {"id": "banane", "emoji": "🍌", "de": "Banane", "pt": "Banana", "group": "Essen"},
+    {"id": "birne", "emoji": "🍐", "de": "Birne", "pt": "Pera", "group": "Essen"},
+    {"id": "kirsche", "emoji": "🍒", "de": "Kirsche", "pt": "Cereja", "group": "Essen"},
+    {"id": "erdbeere", "emoji": "🍓", "de": "Erdbeere", "pt": "Morango", "group": "Essen"},
+    {"id": "traube", "emoji": "🍇", "de": "Traube", "pt": "Uva", "group": "Essen"},
+    {"id": "zitrone", "emoji": "🍋", "de": "Zitrone", "pt": "Limão", "group": "Essen"},
+    {"id": "melone", "emoji": "🍉", "de": "Melone", "pt": "Melancia", "group": "Essen"},
+    {"id": "ananas", "emoji": "🍍", "de": "Ananas", "pt": "Abacaxi", "group": "Essen"},
+    {"id": "karotte", "emoji": "🥕", "de": "Karotte", "pt": "Cenoura", "group": "Essen"},
+    {"id": "mais", "emoji": "🌽", "de": "Mais", "pt": "Milho", "group": "Essen"},
+    {"id": "tomate", "emoji": "🍅", "de": "Tomate", "pt": "Tomate", "group": "Essen"},
+    {"id": "kartoffel", "emoji": "🥔", "de": "Kartoffel", "pt": "Batata", "group": "Essen"},
+    {"id": "pilz", "emoji": "🍄", "de": "Pilz", "pt": "Cogumelo", "group": "Essen"},
+    {"id": "brot", "emoji": "🍞", "de": "Brot", "pt": "Pão", "group": "Essen"},
+    {"id": "brezel", "emoji": "🥨", "de": "Brezel", "pt": "Pretzel", "group": "Essen"},
+    {"id": "kaese", "emoji": "🧀", "de": "Käse", "pt": "Queijo", "group": "Essen"},
+    {"id": "ei", "emoji": "🥚", "de": "Ei", "pt": "Ovo", "group": "Essen"},
+    {"id": "milch", "emoji": "🥛", "de": "Milch", "pt": "Leite", "group": "Essen"},
+    {"id": "saft", "emoji": "🧃", "de": "Saft", "pt": "Suco", "group": "Essen"},
+    {"id": "honig", "emoji": "🍯", "de": "Honig", "pt": "Mel", "group": "Essen"},
+    {"id": "pizza", "emoji": "🍕", "de": "Pizza", "pt": "Pizza", "group": "Essen"},
+    {"id": "kuchen", "emoji": "🍰", "de": "Kuchen", "pt": "Bolo", "group": "Essen"},
+    {"id": "keks", "emoji": "🍪", "de": "Keks", "pt": "Biscoito", "group": "Essen"},
+    {"id": "bonbon", "emoji": "🍬", "de": "Bonbon", "pt": "Bala", "group": "Essen"},
+    {"id": "nudeln", "emoji": "🍝", "de": "Nudeln", "pt": "Macarrão", "group": "Essen"},
+    {"id": "suppe", "emoji": "🍲", "de": "Suppe", "pt": "Sopa", "group": "Essen"},
+    {"id": "wurst", "emoji": "🌭", "de": "Wurst", "pt": "Salsicha", "group": "Essen"},
+    {"id": "salat", "emoji": "🥗", "de": "Salat", "pt": "Salada", "group": "Essen"},
+    {"id": "ball", "emoji": "⚽", "de": "Ball", "pt": "Bola", "group": "Sachen"},
+    {"id": "teddy", "emoji": "🧸", "de": "Teddy", "pt": "Ursinho", "group": "Sachen"},
+    {"id": "ballon", "emoji": "🎈", "de": "Ballon", "pt": "Balão", "group": "Sachen"},
+    {"id": "geschenk", "emoji": "🎁", "de": "Geschenk", "pt": "Presente", "group": "Sachen"},
+    {"id": "puzzle", "emoji": "🧩", "de": "Puzzle", "pt": "Quebra-cabeça", "group": "Sachen"},
+    {"id": "wuerfel", "emoji": "🎲", "de": "Würfel", "pt": "Dado", "group": "Sachen"},
+    {"id": "trommel", "emoji": "🥁", "de": "Trommel", "pt": "Tambor", "group": "Sachen"},
+    {"id": "gitarre", "emoji": "🎸", "de": "Gitarre", "pt": "Violão", "group": "Sachen"},
+    {"id": "buch", "emoji": "📖", "de": "Buch", "pt": "Livro", "group": "Sachen"},
+    {"id": "stift", "emoji": "✏️", "de": "Stift", "pt": "Lápis", "group": "Sachen"},
+    {"id": "schere", "emoji": "✂️", "de": "Schere", "pt": "Tesoura", "group": "Sachen"},
+    {"id": "pinsel", "emoji": "🖌️", "de": "Pinsel", "pt": "Pincel", "group": "Sachen"},
+    {"id": "brief", "emoji": "✉️", "de": "Brief", "pt": "Carta", "group": "Sachen"},
+    {"id": "uhr", "emoji": "⏰", "de": "Uhr", "pt": "Relógio", "group": "Sachen"},
+    {"id": "brille", "emoji": "👓", "de": "Brille", "pt": "Óculos", "group": "Sachen"},
+    {"id": "hut", "emoji": "🎩", "de": "Hut", "pt": "Chapéu", "group": "Sachen"},
+    {"id": "muetze", "emoji": "🧢", "de": "Mütze", "pt": "Boné", "group": "Sachen"},
+    {"id": "schuh", "emoji": "👟", "de": "Schuh", "pt": "Tênis", "group": "Sachen"},
+    {"id": "socke", "emoji": "🧦", "de": "Socke", "pt": "Meia", "group": "Sachen"},
+    {"id": "hose", "emoji": "👖", "de": "Hose", "pt": "Calça", "group": "Sachen"},
+    {"id": "kleid", "emoji": "👗", "de": "Kleid", "pt": "Vestido", "group": "Sachen"},
+    {"id": "krone", "emoji": "👑", "de": "Krone", "pt": "Coroa", "group": "Sachen"},
+    {"id": "ring", "emoji": "💍", "de": "Ring", "pt": "Anel", "group": "Sachen"},
+    {"id": "schluessel", "emoji": "🔑", "de": "Schlüssel", "pt": "Chave", "group": "Sachen"},
+    {"id": "schirm", "emoji": "☂️", "de": "Schirm", "pt": "Guarda-chuva", "group": "Sachen"},
+    {"id": "koffer", "emoji": "🧳", "de": "Koffer", "pt": "Mala", "group": "Sachen"},
+    {"id": "tasche", "emoji": "👜", "de": "Tasche", "pt": "Bolsa", "group": "Sachen"},
+    {"id": "handy", "emoji": "📱", "de": "Handy", "pt": "Celular", "group": "Sachen"},
+    {"id": "kamera", "emoji": "📷", "de": "Kamera", "pt": "Câmera", "group": "Sachen"},
+    {"id": "glocke", "emoji": "🔔", "de": "Glocke", "pt": "Sino", "group": "Sachen"},
+    {"id": "kerze", "emoji": "🕯️", "de": "Kerze", "pt": "Vela", "group": "Sachen"},
+    {"id": "seife", "emoji": "🧼", "de": "Seife", "pt": "Sabão", "group": "Sachen"},
+    {"id": "zahnbuerste", "emoji": "🪥", "de": "Zahnbürste", "pt": "Escova de dentes", "group": "Sachen"},
+    {"id": "bett", "emoji": "🛏️", "de": "Bett", "pt": "Cama", "group": "Sachen"},
+    {"id": "stuhl", "emoji": "🪑", "de": "Stuhl", "pt": "Cadeira", "group": "Sachen"},
+    {"id": "tuer", "emoji": "🚪", "de": "Tür", "pt": "Porta", "group": "Sachen"},
+    {"id": "roboter", "emoji": "🤖", "de": "Roboter", "pt": "Robô", "group": "Sachen"},
+    {"id": "geist", "emoji": "👻", "de": "Geist", "pt": "Fantasma", "group": "Sachen"},
+    {"id": "auto", "emoji": "🚗", "de": "Auto", "pt": "Carro", "group": "Fahrzeuge"},
+    {"id": "bus", "emoji": "🚌", "de": "Bus", "pt": "Ônibus", "group": "Fahrzeuge"},
+    {"id": "zug", "emoji": "🚂", "de": "Zug", "pt": "Trem", "group": "Fahrzeuge"},
+    {"id": "fahrrad", "emoji": "🚲", "de": "Fahrrad", "pt": "Bicicleta", "group": "Fahrzeuge"},
+    {"id": "roller", "emoji": "🛴", "de": "Roller", "pt": "Patinete", "group": "Fahrzeuge"},
+    {"id": "traktor", "emoji": "🚜", "de": "Traktor", "pt": "Trator", "group": "Fahrzeuge"},
+    {"id": "boot", "emoji": "⛵", "de": "Boot", "pt": "Barco", "group": "Fahrzeuge"},
+    {"id": "schiff", "emoji": "🚢", "de": "Schiff", "pt": "Navio", "group": "Fahrzeuge"},
+    {"id": "flugzeug", "emoji": "✈️", "de": "Flugzeug", "pt": "Avião", "group": "Fahrzeuge"},
+    {"id": "rakete", "emoji": "🚀", "de": "Rakete", "pt": "Foguete", "group": "Fahrzeuge"},
+    {"id": "haus", "emoji": "🏠", "de": "Haus", "pt": "Casa", "group": "Natur"},
+    {"id": "burg", "emoji": "🏰", "de": "Burg", "pt": "Castelo", "group": "Natur"},
+    {"id": "zelt", "emoji": "⛺", "de": "Zelt", "pt": "Barraca", "group": "Natur"},
+    {"id": "baum", "emoji": "🌳", "de": "Baum", "pt": "Árvore", "group": "Natur"},
+    {"id": "blume", "emoji": "🌷", "de": "Blume", "pt": "Flor", "group": "Natur"},
+    {"id": "blatt", "emoji": "🍁", "de": "Blatt", "pt": "Folha", "group": "Natur"},
+    {"id": "kaktus", "emoji": "🌵", "de": "Kaktus", "pt": "Cacto", "group": "Natur"},
+    {"id": "sonne", "emoji": "☀️", "de": "Sonne", "pt": "Sol", "group": "Natur"},
+    {"id": "mond", "emoji": "🌙", "de": "Mond", "pt": "Lua", "group": "Natur"},
+    {"id": "wolke", "emoji": "☁️", "de": "Wolke", "pt": "Nuvem", "group": "Natur"},
+    {"id": "regen", "emoji": "🌧️", "de": "Regen", "pt": "Chuva", "group": "Natur"},
+    {"id": "schnee", "emoji": "❄️", "de": "Schnee", "pt": "Neve", "group": "Natur"},
+    {"id": "schneemann", "emoji": "⛄", "de": "Schneemann", "pt": "Boneco de neve", "group": "Natur"},
+    {"id": "blitz", "emoji": "⚡", "de": "Blitz", "pt": "Raio", "group": "Natur"},
+    {"id": "regenbogen", "emoji": "🌈", "de": "Regenbogen", "pt": "Arco-íris", "group": "Natur"},
+    {"id": "feuer", "emoji": "🔥", "de": "Feuer", "pt": "Fogo", "group": "Natur"},
+    {"id": "berg", "emoji": "⛰️", "de": "Berg", "pt": "Montanha", "group": "Natur"},
+    {"id": "welle", "emoji": "🌊", "de": "Welle", "pt": "Onda", "group": "Natur"}
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --bg1:#bfe6ff; --bg2:#9fd98a; --panel:#ffffff; --ink:#24324a; --accent:#ff8a3d;
+    --good:#3bb273; --soft:#ffffffcc; --shadow:0 8px 0 rgba(0,0,0,.12);
+    --dot:#ffffff88;
+  }
+  .theme-einhorn{
+    --bg1:#ffd6ec; --bg2:#d9c2ff; --panel:#ffffff; --ink:#4a2c5e; --accent:#ff6fb5;
+    --good:#a66bff; --soft:#ffffffb3; --dot:#ffffffaa;
+  }
+  .theme-einhorn .title, .theme-einhorn #endStars, .theme-einhorn #endRecord{text-shadow:0 4px 0 #c46fd6;}
+  .theme-einhorn .card.yes{box-shadow:0 0 0 10px #ffd84d, 0 0 30px #ff9de0, var(--shadow);}
+  .theme-weltraum{
+    --bg1:#14193a; --bg2:#3a2a6b; --panel:#fdfbff; --ink:#24324a; --accent:#ffcc33;
+    --good:#45d08a; --soft:#ffffff22; --dot:#ffffff44;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; height:100%; overflow:hidden; background:var(--bg1);}
+  body{
+    font-family: "Avenir Next","Avenir","Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);
+    background:linear-gradient(180deg,var(--bg1) 0%, var(--bg1) 55%, var(--bg2) 100%);
+    user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
+    touch-action:manipulation;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  button{font:inherit; color:inherit; border:0; cursor:pointer; touch-action:manipulation;}
+  .screen{position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));}
+  .screen.on{display:flex;}
+
+  /* deco */
+  #deco{position:fixed; inset:0; pointer-events:none; overflow:hidden;}
+  #deco span{position:absolute; font-size:7vmin; opacity:.55; animation:float 9s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-18px) rotate(6deg)}}
+
+  /* home */
+  .title{font-size:clamp(40px,8vmin,84px); font-weight:800; margin:0 0 8px; text-align:center; color:#fff; text-shadow:0 4px 0 rgba(0,0,0,.18);}
+  .mascot{font-size:clamp(90px,22vmin,220px); line-height:1; animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .bigbtn{background:var(--accent); color:#fff; font-size:clamp(34px,6vmin,60px); font-weight:800; padding:.45em 1.4em; border-radius:999px; box-shadow:var(--shadow); margin-top:4vmin;}
+  .bigbtn:active{transform:translateY(4px); box-shadow:0 4px 0 rgba(0,0,0,.12);}
+  .info{margin-top:3vmin; background:var(--soft); color:var(--ink); padding:.5em 1.1em; border-radius:20px; font-size:clamp(20px,3.4vmin,32px); font-weight:700;}
+  .theme-weltraum .info{color:#fff;}
+
+  /* gear (parents) */
+  #gear{position:fixed; top:max(12px,env(safe-area-inset-top)); right:max(12px,env(safe-area-inset-right)); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
+  #gear svg{position:absolute; inset:0; transform:rotate(-90deg);}
+  #gear circle{fill:none; stroke:var(--accent); stroke-width:5; stroke-dasharray:189; stroke-dashoffset:189;}
+  #gear.hold circle{transition:stroke-dashoffset 1.2s linear; stroke-dashoffset:0;}
+
+  /* game */
+  #topbar{position:absolute; top:max(12px,env(safe-area-inset-top)); left:12px; right:12px; display:flex; align-items:center; gap:12px;}
+  .iconbtn{width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; flex:none;}
+  #dots{flex:1; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;}
+  #dots i{width:22px; height:22px; border-radius:50%; background:var(--dot); display:block; transition:all .3s;}
+  #dots i.done{background:var(--good);}
+  #dots i.star{background:none; width:auto; height:22px; font-style:normal; font-size:22px; line-height:22px;}
+  #dots i.now{box-shadow:0 0 0 4px #fff;}
+  #starcount{background:var(--soft); border-radius:999px; padding:6px 16px; font-size:30px; font-weight:800; flex:none; min-width:110px; text-align:center;}
+  .theme-weltraum #starcount{color:#fff;}
+
+  #stage{width:min(92vw,900px); display:flex; flex-direction:column; align-items:center; gap:3vmin;}
+  #wordbox{position:relative; background:var(--panel); border-radius:36px; box-shadow:var(--shadow); width:100%; min-height:clamp(150px,26vmin,260px); display:flex; align-items:center; justify-content:center; padding:20px 90px;}
+  #word{font-size:clamp(64px,14vmin,150px); font-weight:700; letter-spacing:.03em; color:var(--ink);}
+  #word.hint{font-size:clamp(48px,9vmin,100px);}
+  #ready{font-size:clamp(50px,10vmin,100px); animation:pulse .5s ease-in-out infinite alternate;}
+  @keyframes pulse{from{transform:scale(.8);opacity:.5}to{transform:scale(1.05);opacity:1}}
+  #hear{position:absolute; right:14px; bottom:14px; width:68px; height:68px; border-radius:50%; background:#eef3ff; font-size:32px; display:none;}
+  #hear.on{display:block;}
+
+  #game{padding-top:calc(max(12px,env(safe-area-inset-top)) + 84px);}
+  /* 2x2 grid: square, so its height = width → limit by available height */
+  #grid{display:grid; grid-template-columns:repeat(2,1fr); gap:3vmin; width:min(100%, calc(100vh - 84px - clamp(150px,26vmin,260px) - 12vmin - 32px)); width:min(100%, calc(100dvh - 84px - clamp(150px,26vmin,260px) - 12vmin - 32px));}
+  @media (min-aspect-ratio: 4/3){ #grid{grid-template-columns:repeat(4,1fr); width:100%;} }
+  .card{background:var(--panel); border-radius:32px; box-shadow:var(--shadow); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:clamp(70px,16vmin,150px); transition:transform .15s, opacity .4s; overflow:hidden;}
+  .card img{width:85%; height:85%; object-fit:cover; border-radius:22px;}
+  .card:active{transform:scale(.96);}
+  .card.yes{box-shadow:0 0 0 10px var(--good), var(--shadow); transform:scale(1.06);}
+  .card.nope{animation:wobble .5s; opacity:.25; pointer-events:none;}
+  @keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+  .card.pop{animation:popin .25s ease-out both;}
+  @keyframes popin{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+  #cheer{position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(0); font-size:clamp(48px,10vmin,110px); font-weight:800; color:#fff; text-shadow:0 5px 0 rgba(0,0,0,.2); pointer-events:none; transition:transform .25s; z-index:6; text-align:center;}
+  #cheer.on{transform:translate(-50%,-50%) scale(1);}
+  #flystar{position:fixed; font-size:80px; pointer-events:none; z-index:7; display:none;}
+
+  /* end */
+  #endStars{font-size:clamp(40px,8vmin,80px); font-weight:800; color:#fff; text-shadow:0 4px 0 rgba(0,0,0,.18); margin-top:2vmin;}
+  #endRecord{font-size:clamp(28px,5vmin,52px); font-weight:800; color:#fff; margin-top:1vmin; text-shadow:0 3px 0 rgba(0,0,0,.18);}
+  #confetti{position:fixed; inset:0; pointer-events:none; z-index:4;}
+
+  /* parents */
+  #parents{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:20; padding:16px;}
+  #parents.on{display:flex;}
+  .sheet{background:#fff; color:#24324a; border-radius:24px; width:min(720px,100%); max-height:92vh; overflow:auto; padding:24px; font-size:18px; -webkit-overflow-scrolling:touch; user-select:text; -webkit-user-select:text;}
+  .sheet h2{margin:0 0 4px; font-size:26px;}
+  .sheet h3{margin:22px 0 8px; font-size:18px; color:#5b6680; text-transform:uppercase; letter-spacing:.05em;}
+  .seg{display:flex; flex-wrap:wrap; gap:8px;}
+  .seg button{background:#eef1f7; padding:10px 16px; border-radius:12px; font-size:17px; min-height:48px;}
+  .seg button.sel{background:#24324a; color:#fff;}
+  .sheet table{border-collapse:collapse; width:100%; font-size:16px;}
+  .sheet td,.sheet th{padding:6px 8px; border-bottom:1px solid #eee; text-align:left;}
+  .sheet .muted{color:#7a849a; font-size:15px;}
+  .sheet .row{display:flex; gap:10px; justify-content:space-between; margin-top:24px; flex-wrap:wrap;}
+  .sheet .danger{background:#fde8e8; color:#b42318; padding:12px 18px; border-radius:12px;}
+  .sheet .ok{background:#24324a; color:#fff; padding:12px 24px; border-radius:12px;}
+</style>
+</head>
+<body class="theme-wiese">
+
+<div id="deco"></div>
+
+<button id="gear" aria-label="Modo pais (segure)">⚙️<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/></svg></button>
+
+<!-- HOME -->
+<section id="home" class="screen on">
+  <h1 class="title" id="homeTitle">Laras Lesespiel</h1>
+  <div class="mascot" id="homeMascot">🦊</div>
+  <button class="bigbtn" id="startBtn">Los! ▶</button>
+  <div class="info" id="homeInfo"></div>
+</section>
+
+<!-- GAME -->
+<section id="game" class="screen">
+  <div id="topbar">
+    <button class="iconbtn" id="homeBtn" aria-label="Home">🏠</button>
+    <div id="dots"></div>
+    <div id="starcount">⭐ 0</div>
+  </div>
+  <div id="stage">
+    <div id="wordbox">
+      <div id="ready">⭐</div>
+      <div id="word"></div>
+      <button id="hear" aria-label="Wort anhören">🔊</button>
+    </div>
+    <div id="grid"></div>
+  </div>
+</section>
+
+<!-- END -->
+<section id="end" class="screen">
+  <h1 class="title" id="endTitle">Geschafft!</h1>
+  <div class="mascot" id="endMascot">🦊</div>
+  <div id="endStars"></div>
+  <div id="endRecord"></div>
+  <button class="bigbtn" id="againBtn">Nochmal ▶</button>
+</section>
+
+<div id="cheer"></div>
+<div id="flystar">⭐</div>
+<canvas id="confetti"></canvas>
+
+<!-- PARENTS -->
+<div id="parents"><div class="sheet" id="sheet"></div></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- data ---------- */
+const DATA = JSON.parse(document.getElementById('words').textContent);
+const WORDS = DATA.words;
+
+// display time per level (ms). Level 1 = muito fácil.
+const LEVEL_MS = [3000, 2400, 1800, 1300, 950, 700];
+const MIN_MS = 500;
+const MAX_LEVEL = LEVEL_MS.length;
+
+const THEMES = {
+  wiese:    { name: 'Wiese / Tiere', mascot: '🦊', deco: ['🌼','🦋','🐞','🌷','🐝'], cls: 'theme-wiese' },
+  einhorn:  { name: 'Einhorn',       mascot: '🦄', deco: ['🌈','✨','💖','☁️','🌸','🦋','💜'], cls: 'theme-einhorn' },
+  weltraum: { name: 'Weltraum',      mascot: '🚀', deco: ['⭐','🪐','🌟','☄️','🌙'], cls: 'theme-weltraum' },
+};
+
+const UI = {
+  de: { start: 'Los! ▶', again: 'Nochmal ▶', done: 'Geschafft!', record: 'Neuer Rekord! 🏆',
+        best: n => `Dein Rekord: ⭐ ${n}`, total: n => `Sternensammlung: ⭐ ${n}`,
+        cheers: ['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Juhu!', 'Wow!'], title: 'Laras Lesespiel',
+        you: n => `⭐ ${n} Sterne!` },
+  pt: { start: 'Vamos! ▶', again: 'De novo ▶', done: 'Conseguiu!', record: 'Novo recorde! 🏆',
+        best: n => `Seu recorde: ⭐ ${n}`, total: n => `Coleção de estrelas: ⭐ ${n}`,
+        cheers: ['Muito bem!', 'Isso!', 'Show!', 'Demais!', 'Uhuu!', 'Uau!'], title: 'Jogo de Leitura da Lara',
+        you: n => `⭐ ${n} estrelas!` },
+};
+
+/* ---------- storage ---------- */
+const KEY = 'laras-lesespiel-v1';
+const DEFAULTS = {
+  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85 },
+  totalStars: 0,
+  record: { de: 0, pt: 0 },
+  level: { de: null, pt: null },
+  ms: { de: null, pt: null },
+  stats: { de: {}, pt: {} },
+  sessions: [],
+};
+const clone = o => JSON.parse(JSON.stringify(o));
+function merge(base, extra) {
+  const out = clone(base);
+  if (!extra || typeof extra !== 'object') return out;
+  for (const k of Object.keys(extra)) {
+    if (out[k] && typeof out[k] === 'object' && !Array.isArray(out[k]) && extra[k] && typeof extra[k] === 'object' && !Array.isArray(extra[k]))
+      out[k] = merge(out[k], extra[k]);
+    else out[k] = extra[k];
+  }
+  return out;
+}
+function load() { try { return merge(DEFAULTS, JSON.parse(localStorage.getItem(KEY) || 'null')); } catch (e) { return clone(DEFAULTS); } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) { /* private mode etc. */ } }
+let P = load();
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const lang = () => P.settings.lang;
+const t = () => UI[lang()];
+const label = w => w[lang()] || w.de;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+let timers = [];
+const later = (fn, ms) => { const id = setTimeout(fn, ms); timers.push(id); return id; };
+const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); $('gear').style.display = id === 'home' ? 'flex' : 'none'; }
+function stat(id) { const s = P.stats[lang()]; return s[id] || (s[id] = { s: 0, c: 0, m: 0 }); }
+
+/* ---------- sound ---------- */
+let AC = null;
+function audio() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (AC && AC.state === 'suspended') AC.resume(); return AC; }
+function tone(freq, start, dur, type = 'sine', vol = .18) {
+  if (!P.settings.sound) return; const ac = audio(); if (!ac) return;
+  const o = ac.createOscillator(), g = ac.createGain(); const t0 = ac.currentTime + start;
+  o.type = type; o.frequency.value = freq; g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(vol, t0 + .02); g.gain.exponentialRampToValueAtTime(.001, t0 + dur);
+  o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + dur + .05);
+}
+const sfx = {
+  yes()  { tone(660, 0, .15); tone(880, .1, .25); },
+  star() { tone(1320, 0, .12, 'triangle', .12); tone(1760, .08, .2, 'triangle', .12); },
+  soft() { tone(330, 0, .18, 'sine', .1); },
+  end()  { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .13, .3, 'triangle', .15)); },
+};
+
+/* ---------- speech ---------- */
+let voices = [];
+function loadVoices() { try { voices = speechSynthesis.getVoices(); } catch (e) {} }
+if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const code = lang() === 'de' ? 'de-DE' : 'pt-BR';
+    u.lang = code; u.rate = P.settings.rate;
+    const v = voices.find(v => v.lang === code) || voices.find(v => v.lang && v.lang.startsWith(code.slice(0, 2)));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------- theme / home ---------- */
+function applyTheme() {
+  const th = THEMES[P.settings.theme] || THEMES.wiese;
+  document.body.className = th.cls;
+  $('homeMascot').textContent = th.mascot; $('endMascot').textContent = th.mascot;
+  const deco = $('deco'); deco.innerHTML = '';
+  const spots = [[6, 12], [86, 18], [10, 70], [88, 66], [48, 88], [24, 40], [72, 42]];
+  spots.forEach((p, i) => { const s = document.createElement('span'); s.textContent = th.deco[i % th.deco.length]; s.style.left = p[0] + '%'; s.style.top = p[1] + '%'; s.style.animationDelay = (i * -1.3) + 's'; deco.appendChild(s); });
+}
+function renderHome() {
+  applyTheme();
+  $('homeTitle').textContent = t().title;
+  $('startBtn').textContent = t().start;
+  $('againBtn').textContent = t().again;
+  $('homeInfo').innerHTML = `${t().total(P.totalStars)} &nbsp;·&nbsp; ${t().best(P.record[lang()] || 0)}`;
+  show('home');
+}
+
+/* ---------- game state ---------- */
+let G = null;
+
+function startSession() {
+  audio();
+  try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen || (() => {})).call(el); } catch (e) {}
+  const savedLvl = P.level[lang()];
+  const level = savedLvl ? Math.max(1, savedLvl - 1) : P.settings.startLevel;   // começa um nível abaixo (aquecimento)
+  G = {
+    level, ms: LEVEL_MS[level - 1], okStreak: 0, errStreak: 0,
+    round: 0, stars: 0, t0: Date.now(), recent: [], results: [],
+    target: null, options: [], attempt: 0, locked: true, startLevel: level, startMs: LEVEL_MS[level - 1],
+  };
+  renderDots(); updateStars();
+  show('game');
+  later(nextRound, 400);
+}
+
+function floorMs(level) { return level < MAX_LEVEL ? LEVEL_MS[level] : MIN_MS; }
+
+function poolFor(level) {
+  const maxLen = level === 1 ? 4 : level === 2 ? 5 : 99;
+  let p = WORDS.filter(w => label(w).length <= maxLen);
+  if (p.length < 6) p = WORDS.slice();
+  return p;
+}
+
+function pickTarget() {
+  const pool = poolFor(G.level).filter(w => !G.recent.includes(w.id));
+  const weights = pool.map(w => { const s = stat(w.id); return (1 + s.m * 2) / (1 + s.c * 0.4); });
+  let r = Math.random() * weights.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < pool.length; i++) { r -= weights[i]; if (r <= 0) return pool[i]; }
+  return pool[pool.length - 1];
+}
+
+function pickOptions(target) {
+  const others = WORDS.filter(w => w.id !== target.id && w.emoji !== target.emoji);
+  const tw = label(target).toLowerCase();
+  const score = w => { const l = label(w).toLowerCase(); let s = 0; if (l[0] === tw[0]) s += 2; if (l.length === tw.length) s += 1; if (l.slice(-2) === tw.slice(-2)) s += 1; return s; };
+  let chosen;
+  if (G.level <= 2) chosen = shuffle(others.filter(w => label(w)[0].toLowerCase() !== tw[0])).slice(0, 3);       // fácil: começos diferentes
+  else if (G.level === 3) chosen = shuffle(others).slice(0, 3);
+  else { const sorted = shuffle(others).sort((a, b) => score(b) - score(a)); chosen = [sorted[0], sorted[1], shuffle(sorted.slice(2))[0]]; } // difícil: palavras parecidas
+  for (const w of shuffle(others)) { if (chosen.length >= 3) break; if (!chosen.includes(w)) chosen.push(w); }
+  return shuffle([target, ...chosen.slice(0, 3)]);
+}
+
+function sessionOver() {
+  return G.round >= P.settings.rounds || (Date.now() - G.t0) >= P.settings.maxMin * 60000;
+}
+
+function nextRound() {
+  if (sessionOver()) return endSession();
+  G.target = pickTarget();
+  G.recent = [G.target.id, ...G.recent].slice(0, 8);
+  G.options = pickOptions(G.target);
+  G.attempt = 0;
+  stat(G.target.id).s++;
+  renderDots();
+  $('grid').innerHTML = '';
+  flashWord(G.ms);
+}
+
+// ready-star → word for `ms` → choices
+function flashWord(ms) {
+  G.locked = true;
+  const word = $('word'), ready = $('ready'), hear = $('hear');
+  word.classList.remove('hint'); word.textContent = ''; ready.style.display = 'block';
+  hear.classList.remove('on');
+  $('grid').style.visibility = 'hidden';
+  later(() => {
+    ready.style.display = 'none';
+    word.textContent = label(G.target);
+    hear.classList.add('on');
+    later(() => {
+      word.textContent = ''; hear.classList.remove('on');
+      later(showChoices, 120);
+    }, ms);
+  }, 650);
+}
+
+function cardEl(w) {
+  const b = document.createElement('button');
+  b.className = 'card pop'; b.dataset.id = w.id; b.setAttribute('aria-label', 'Bild');
+  if (w.img) { const im = document.createElement('img'); im.src = w.img; im.alt = ''; b.appendChild(im); }
+  else b.textContent = w.emoji;
+  b.addEventListener('click', () => pick(b, w));
+  return b;
+}
+
+function showChoices() {
+  const grid = $('grid');
+  if (!grid.children.length) G.options.forEach((w, i) => { const c = cardEl(w); c.style.animationDelay = (i * 60) + 'ms'; grid.appendChild(c); });
+  grid.style.visibility = 'visible';
+  if (G.attempt >= 2) {               // 2ª ajuda: a palavra fica na tela e é falada
+    const word = $('word'); word.textContent = label(G.target); word.classList.add('hint');
+    $('ready').style.display = 'none'; $('hear').classList.add('on');
+    speak(label(G.target));
+  }
+  G.locked = false;
+}
+
+function pick(card, w) {
+  if (G.locked) return;
+  if (w.id === G.target.id) return success(card);
+  // never "wrong": card fades gently and the word comes back, longer
+  G.locked = true;
+  G.attempt++;
+  stat(G.target.id).m++;
+  card.classList.add('nope');
+  sfx.soft();
+  save();
+  if (G.attempt === 1) later(() => flashWord(Math.min(5000, G.ms * 1.6)), 700);
+  else later(showChoices, 500);
+}
+
+function success(card) {
+  G.locked = true;
+  card.classList.add('yes');
+  sfx.yes();
+  speak(label(G.target));
+  const first = G.attempt === 0;
+  if (first) {
+    G.stars++; stat(G.target.id).c++;
+    G.okStreak++; G.errStreak = 0;
+    G.ms = Math.max(floorMs(G.level), Math.round(G.ms * 0.94));      // encurta aos poucos
+    if (G.okStreak >= 3) { G.okStreak = 0; if (G.level < MAX_LEVEL) { G.level++; G.ms = LEVEL_MS[G.level - 1]; } }
+    flyStar(card);
+  } else {
+    G.okStreak = 0; G.errStreak++;
+    if (G.errStreak >= 2) { G.errStreak = 0; if (G.level > 1) G.level--; G.ms = LEVEL_MS[G.level - 1]; }
+  }
+  G.results.push(first ? 'star' : 'done');
+  G.round++;
+  cheer(first ? t().cheers[Math.floor(Math.random() * t().cheers.length)] : '👍');
+  later(() => { updateStars(); renderDots(); }, 550);
+  later(nextRound, 1500);
+}
+
+function endSession() {
+  clearTimers();
+  const l = lang();
+  const isRecord = G.stars > (P.record[l] || 0);
+  if (isRecord) P.record[l] = G.stars;
+  P.totalStars += G.stars;
+  P.level[l] = G.level; P.ms[l] = G.ms;
+  P.sessions.unshift({ d: new Date().toISOString(), lang: l, stars: G.stars, rounds: G.round, lvl0: G.startLevel, lvl1: G.level, ms: G.ms, min: Math.round((Date.now() - G.t0) / 6000) / 10 });
+  P.sessions = P.sessions.slice(0, 40);
+  save();
+  $('endTitle').textContent = t().done;
+  $('endStars').textContent = t().you(G.stars);
+  $('endRecord').textContent = isRecord && G.stars > 0 ? t().record : t().best(P.record[l]);
+  show('end');
+  sfx.end();
+  confetti();
+}
+
+/* ---------- visuals ---------- */
+function renderDots() {
+  const d = $('dots'); d.innerHTML = '';
+  for (let i = 0; i < P.settings.rounds; i++) {
+    const el = document.createElement('i'); const r = G.results[i];
+    if (r === 'star') { el.className = 'star'; el.textContent = '⭐'; }
+    else if (r === 'done') el.className = 'done';
+    else if (i === G.round) el.className = 'now';
+    d.appendChild(el);
+  }
+}
+function updateStars() { $('starcount').textContent = '⭐ ' + G.stars; }
+function cheer(txt) { const c = $('cheer'); c.textContent = txt; c.classList.add('on'); later(() => c.classList.remove('on'), 800); }
+function flyStar(fromEl) {
+  const s = $('flystar'), a = fromEl.getBoundingClientRect(), b = $('starcount').getBoundingClientRect();
+  s.style.display = 'block'; s.style.transition = 'none';
+  s.style.left = (a.left + a.width / 2 - 40) + 'px'; s.style.top = (a.top + a.height / 2 - 40) + 'px'; s.style.transform = 'scale(1)';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    s.style.transition = 'left .55s ease-in, top .55s ease-in, transform .55s';
+    s.style.left = (b.left + 10) + 'px'; s.style.top = (b.top - 25) + 'px'; s.style.transform = 'scale(.4)';
+  }));
+  later(() => { s.style.display = 'none'; sfx.star(); }, 560);
+}
+function confetti() {
+  const cv = $('confetti'), ctx = cv.getContext('2d');
+  const W = cv.width = innerWidth * devicePixelRatio, H = cv.height = innerHeight * devicePixelRatio;
+  cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+  const colors = ['#ff8a3d', '#ffcc33', '#3bb273', '#4d8dff', '#ff5fa2', '#9b6bff'];
+  const parts = Array.from({ length: 140 }, () => ({ x: Math.random() * W, y: -Math.random() * H * .5, vx: (Math.random() - .5) * 4, vy: 3 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .3, c: colors[Math.floor(Math.random() * colors.length)], s: (6 + Math.random() * 8) * devicePixelRatio }));
+  const t0 = performance.now();
+  (function frame(now) {
+    ctx.clearRect(0, 0, W, H);
+    parts.forEach(p => { p.x += p.vx; p.y += p.vy; p.r += p.vr; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore(); });
+    if (now - t0 < 3500) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  })(t0);
+}
+
+/* ---------- parents mode ---------- */
+function openParents() {
+  const s = P.settings;
+  const seg = (key, opts) => `<div class="seg" data-key="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(s[key]) === String(v) ? 'sel' : ''}">${l}</button>`).join('')}</div>`;
+  const st = P.stats[s.lang];
+  const rows = WORDS.map(w => ({ w, x: st[w.id] || { s: 0, c: 0, m: 0 } }))
+    .sort((a, b) => (b.x.m - b.x.c * .5) - (a.x.m - a.x.c * .5))
+    .map(({ w, x }) => `<tr><td>${w.emoji} ${w[s.lang] || w.de}</td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`).join('');
+  const sess = P.sessions.slice(0, 10).map(q => `<tr><td>${new Date(q.d).toLocaleDateString('pt-BR')} ${new Date(q.d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</td><td>${q.lang.toUpperCase()}</td><td>⭐ ${q.stars}/${q.rounds}</td><td>nível ${q.lvl0}→${q.lvl1}</td><td>${(q.ms / 1000).toFixed(2)} s</td></tr>`).join('') || '<tr><td class="muted">Nenhuma sessão ainda.</td></tr>';
+  const curLvl = P.level[s.lang];
+  $('sheet').innerHTML = `
+    <h2>Modo pais</h2>
+    <div class="muted">Nível atual (${s.lang.toUpperCase()}): ${curLvl ? curLvl + ' · palavra aparece ' + (P.ms[s.lang] / 1000).toFixed(2) + ' s' : 'ainda não jogou'}</div>
+    <h3>Idioma das palavras</h3>${seg('lang', [['de', 'Deutsch'], ['pt', 'Português']])}
+    <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
+    <h3>Dificuldade inicial</h3>${seg('startLevel', LEVEL_MS.map((ms, i) => [i + 1, `${i + 1} · ${(ms / 1000).toFixed(1).replace('.', ',')} s`]))}
+    <div class="muted" style="margin-top:6px">Mudar aqui reinicia o nível salvo. Depois o jogo se ajusta sozinho: sobe após 3 acertos de primeira seguidos, desce após 2 rodadas com erro.</div>
+    <h3>Sessão</h3>${seg('rounds', [[5, '5 rodadas'], [10, '10 rodadas'], [15, '15 rodadas']])}
+    <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
+    <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
+    <div style="height:8px"></div>${seg('rate', [[0.7, 'Voz lenta'], [0.85, 'Voz normal'], [1, 'Voz rápida']])}
+    <h3>Últimas sessões</h3>
+    <table><tr><th>Quando</th><th></th><th>Estrelas</th><th>Nível</th><th>Tempo final</th></tr>${sess}</table>
+    <h3>Palavras (${WORDS.length}, ${s.lang.toUpperCase()}) — mais difíceis primeiro</h3>
+    <table><tr><th>Palavra</th><th>Vista</th><th>De primeira</th><th>Erros</th></tr>${rows}</table>
+    <div class="muted" style="margin-top:10px">Para trocar as palavras, abra o arquivo HTML e edite a lista JSON no topo.</div>
+    <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button><button class="ok" id="closeParents">Fechar</button></div>`;
+  $('sheet').querySelectorAll('.seg').forEach(g => g.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const key = g.dataset.key; let v = b.dataset.v;
+    if (v === 'true' || v === 'false') v = v === 'true'; else if (!isNaN(Number(v))) v = Number(v);
+    P.settings[key] = v;
+    if (key === 'startLevel') { P.level[s.lang] = null; P.ms[s.lang] = null; }
+    save(); applyTheme(); openParents();
+  }));
+  $('resetBtn').onclick = () => { if (confirm('Apagar estrelas, recordes e estatísticas?')) { const keep = P.settings; P = clone(DEFAULTS); P.settings = keep; save(); openParents(); } };
+  $('closeParents').onclick = () => { $('parents').classList.remove('on'); renderHome(); };
+  $('parents').classList.add('on');
+}
+
+// long-press (1,2 s) to open — so Lara doesn't open it by accident
+(() => {
+  const g = $('gear'); let id = null;
+  const startHold = e => { e.preventDefault(); g.classList.add('hold'); id = setTimeout(() => { g.classList.remove('hold'); openParents(); }, 1200); };
+  const stopHold = () => { clearTimeout(id); g.classList.remove('hold'); };
+  g.addEventListener('pointerdown', startHold);
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => g.addEventListener(ev, stopHold));
+  g.addEventListener('contextmenu', e => e.preventDefault());
+})();
+
+/* ---------- wiring ---------- */
+$('startBtn').addEventListener('click', startSession);
+$('againBtn').addEventListener('click', startSession);
+$('homeBtn').addEventListener('click', () => { clearTimers(); try { speechSynthesis.cancel(); } catch (e) {} renderHome(); });
+$('hear').addEventListener('click', e => { e.stopPropagation(); if (G && G.target) speak(label(G.target)); });
+document.addEventListener('gesturestart', e => e.preventDefault());
+
+// debug hook for testing
+window.__lesespiel = { get G() { return G; }, get P() { return P; } };
+
+renderHome();
+
+// offline: guarda o jogo no iPad depois da primeira abertura
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+})();
+</script>
+</body>
+</html>
