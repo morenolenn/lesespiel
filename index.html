@@ -375,7 +375,7 @@
   .seg button{background:var(--btn-soft); color:var(--btn-soft-ink); padding:10px 16px; border-radius:12px; font-size:17px; min-height:48px;}
   .seg button.sel{background:var(--btn); color:var(--btn-ink);}
   .sheet a{color:var(--btn); font-weight:600;}
-  .explain{margin-top:8px; padding:10px 14px; border-radius:12px; background:var(--btn-soft); color:var(--btn-soft-ink); font-size:15px; line-height:1.45;}
+  .explain{margin-top:8px; padding:10px 14px; border-radius:12px; background:#f4f5f7; color:#4b5563; font-size:15px; line-height:1.45;}
   .sheet table{border-collapse:collapse; width:100%; font-size:16px;}
   .sheet td,.sheet th{padding:6px 8px; border-bottom:1px solid #eee; text-align:left;}
   .sheet .muted{color:#7a849a; font-size:15px;}
@@ -437,7 +437,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 9;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 10;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
