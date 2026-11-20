@@ -1,5 +1,5 @@
 // Cache offline. Suba a versão quando atualizar o jogo.
-const CACHE = 'lesespiel-v11';
+const CACHE = 'lesespiel-v12';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES.map(f => new Request(f, { cache: 'reload' }))))); self.skipWaiting(); });
 self.addEventListener('activate', e => {

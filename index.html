@@ -443,7 +443,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 11;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 12;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -558,7 +558,7 @@ const RECORDED = {
   pt: [['francisca', 'Francisca']],
 };
 const clipCache = new Map();
-function recKey() { const k = P.settings.rec && P.settings.rec[lang()]; return RECORDED[lang()].some(r => r[0] === k) ? k : null; }
+function recKey() { const k = P.settings.rec && P.settings.rec[lang()]; return RECORDED[lang()].some(r => r[0] === k) ? k : RECORDED[lang()][0][0]; }
 async function loadClip(key, file) {
   const url = `audio/${key}/${file}.mp3`;
   if (!clipCache.has(url)) clipCache.set(url, fetch(url).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
@@ -951,12 +951,10 @@ function openParents() {
     <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
     <div class="explain">A sessão termina no que vier primeiro: ${s.rounds} rodadas ou ${s.maxMin} minutos.</div>
     <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
-    <div style="height:8px"></div>${seg('rate', [[0.7, 'Voz lenta'], [0.85, 'Voz normal'], [1, 'Voz rápida']])}
-    <div class="explain">Sons são os efeitos de acerto e estrela. A velocidade só vale para a voz do iPad; as vozes gravadas já falam devagar.</div>
+    <div class="explain">Sons são os efeitos de acerto e estrela. A voz que lê as palavras continua funcionando mesmo com os sons desligados.</div>
     <h3>Voz (${s.lang.toUpperCase()})</h3>
     <div class="muted">Toque numa voz para ouvir e escolher.</div>
-    <div class="seg" id="recList" style="margin-top:8px">${[...RECORDED[s.lang], ['system', 'Voz do iPad']].map(([k, n]) => `<button data-rec="${k}" class="${(recKey() || 'system') === k ? 'sel' : ''}">${k === 'system' ? '📱 ' : '🎙️ '}${n}</button>`).join('')}</div>
-    ${recKey() ? '' : `<div class="muted" style="margin-top:10px">Vozes do iPad (a velocidade da voz vale só para estas):</div><div class="seg" id="voiceList" style="margin-top:8px">${voiceButtons()}</div>`}
+    <div class="seg" id="recList" style="margin-top:8px">${RECORDED[s.lang].map(([k, n]) => `<button data-rec="${k}" class="${recKey() === k ? 'sel' : ''}">🎙️ ${n}</button>`).join('')}</div>
     <h3>Foto da Lara</h3>
     <div class="seg"><button id="photoPick">📷 ${getAvatar() ? 'Trocar foto' : 'Escolher foto'}</button>${getAvatar() ? '<button id="photoDel">Remover foto (volta o mascote)</button>' : ''}</div>
     <h3>Últimas sessões</h3>
