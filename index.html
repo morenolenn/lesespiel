@@ -363,6 +363,9 @@
   #parents.on{display:flex;}
   .sheet{background:#fff; color:#24324a; border-radius:24px; width:min(720px,100%); max-height:92vh; overflow:auto; padding:24px; font-size:18px; -webkit-overflow-scrolling:touch; user-select:text; -webkit-user-select:text;}
   .sheet h2{margin:0 0 4px; font-size:26px;}
+  .sheethead{position:sticky; top:-24px; margin:-24px -24px 8px; padding:20px 24px 10px; background:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:2;}
+  .sheethead h2{margin:0;}
+  .xbtn{width:48px; height:48px; border-radius:50%; background:#eef1f7; font-size:22px; line-height:48px; text-align:center; flex:none;}
   .sheet h3{margin:22px 0 8px; font-size:18px; color:#5b6680; text-transform:uppercase; letter-spacing:.05em;}
   .seg{display:flex; flex-wrap:wrap; gap:8px;}
   .seg button{background:#eef1f7; padding:10px 16px; border-radius:12px; font-size:17px; min-height:48px;}
@@ -874,7 +877,7 @@ function openWordList() {
   const unseen = all.filter(r => r.x.s === 0);
   const row = ({ w, x }) => `<tr><td>${w.emoji} ${w[l] || w.de}</td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`;
   $('sheet').innerHTML = `
-    <div class="seg"><button id="backParents">‹ Voltar</button></div>
+    <div class="sheethead"><div class="seg"><button id="backParents">‹ Voltar</button></div><button class="xbtn" id="closeParents" aria-label="Fechar">✕</button></div>
     <h2 style="margin-top:14px">Palavras (${WORDS.length}, ${l.toUpperCase()})</h2>
     <div class="muted">Já vistas: ${seen.length} · Ainda não apareceram: ${unseen.length}</div>
     <h3>Já vistas — mais difíceis primeiro</h3>
@@ -887,6 +890,7 @@ function openWordList() {
     <div class="row"><span></span><button class="ok" id="backParents2">‹ Voltar</button></div>`;
   $('sheet').scrollTop = 0;
   $('backParents').onclick = $('backParents2').onclick = openParents;
+  $('closeParents').onclick = () => { $('parents').classList.remove('on'); renderHome(); };
 }
 function openParents() {
   const s = P.settings;
@@ -895,7 +899,7 @@ function openParents() {
   const sess = P.sessions.slice(0, 10).map(q => `<tr><td>${new Date(q.d).toLocaleDateString('pt-BR')} ${new Date(q.d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</td><td>${q.lang.toUpperCase()}</td><td>⭐ ${q.stars}/${q.rounds}</td><td>nível ${q.lvl0}→${q.lvl1}</td><td>${(q.ms / 1000).toFixed(2)} s</td></tr>`).join('') || '<tr><td class="muted">Nenhuma sessão ainda.</td></tr>';
   const curLvl = P.level[s.lang];
   $('sheet').innerHTML = `
-    <h2>Modo pais</h2>
+    <div class="sheethead"><h2>Modo pais</h2><button class="xbtn" id="closeParents" aria-label="Fechar">✕</button></div>
     <div class="muted">Nível atual (${s.lang.toUpperCase()}): ${curLvl ? curLvl + ' · palavra aparece ' + (P.ms[s.lang] / 1000).toFixed(2) + ' s' : 'ainda não jogou'}</div>
     <h3>Idioma das palavras</h3>${seg('lang', [['de', 'Deutsch'], ['pt', 'Português']])}
     <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
@@ -916,7 +920,7 @@ function openParents() {
     <table><tr><th>Quando</th><th></th><th>Estrelas</th><th>Nível</th><th>Tempo final</th></tr>${sess}</table>
     <h3>Palavras</h3>
     <div class="seg"><button id="wordsBtn">📚 Ver as ${WORDS.length} palavras e estatísticas ›</button></div>
-    <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button><button class="ok" id="closeParents">Fechar</button></div>`;
+    <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button></div>`;
   $('sheet').querySelectorAll('.seg').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.rec) {
