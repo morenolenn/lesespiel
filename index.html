@@ -363,6 +363,7 @@
   #parents.on{display:flex;}
   .sheet{background:#fff; color:#24324a; border-radius:24px; width:min(720px,100%); max-height:100%; overflow:auto; padding:24px; font-size:18px; -webkit-overflow-scrolling:touch; user-select:text; -webkit-user-select:text;}
   .sheet h2{margin:0 0 4px; font-size:26px;}
+  .sheet{scrollbar-width:none;} .sheet::-webkit-scrollbar{display:none; width:0; height:0;}
   .sheethead{position:sticky; top:-24px; margin:-24px -24px 8px; padding:20px 24px 10px; background:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:2;}
   .sheethead h2{margin:0;}
   .xbtn{width:48px; height:48px; border-radius:50%; background:#eef1f7; font-size:22px; line-height:48px; text-align:center; flex:none;}
@@ -431,6 +432,7 @@
 'use strict';
 
 /* ---------- data ---------- */
+const APP_VERSION = 7;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -900,6 +902,7 @@ function openParents() {
   const curLvl = P.level[s.lang];
   $('sheet').innerHTML = `
     <div class="sheethead"><h2>Modo pais</h2><button class="xbtn" id="closeParents" aria-label="Fechar">✕</button></div>
+    <div class="muted">Versão ${APP_VERSION} · <a href="#" id="updNow" style="color:#4d6bff">verificar atualização</a></div>
     <div class="muted">Nível atual (${s.lang.toUpperCase()}): ${curLvl ? curLvl + ' · palavra aparece ' + (P.ms[s.lang] / 1000).toFixed(2) + ' s' : 'ainda não jogou'}</div>
     <h3>Idioma das palavras</h3>${seg('lang', [['de', 'Deutsch'], ['pt', 'Português']])}
     <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
@@ -944,6 +947,7 @@ function openParents() {
   }));
   $('resetBtn').onclick = () => { if (confirm('Apagar estrelas, recordes e estatísticas?')) { const keep = P.settings; P = clone(DEFAULTS); P.settings = keep; save(); openParents(); } };
   $('wordsBtn').onclick = openWordList;
+  $('updNow').onclick = e => { e.preventDefault(); checkUpdate(true); };
   $('photoPick').onclick = pickPhoto;
   if ($('photoDel')) $('photoDel').onclick = () => { try { localStorage.removeItem(AVATAR_KEY); } catch (e) {} applyTheme(); openParents(); };
   $('closeParents').onclick = () => { $('parents').classList.remove('on'); renderHome(); };
@@ -973,6 +977,27 @@ window.__lesespiel = { get G() { return G; }, get P() { return P; } };
 
 renderHome();
 prefetchVoice();
+
+// ---- atualização: ao abrir ou voltar para o app, confere se há versão nova ----
+async function checkUpdate(manual) {
+  if (!location.protocol.startsWith('http')) return;
+  try {
+    const r = await fetch('version.json?t=' + Date.now(), { cache: 'no-store' });
+    const v = (await r.json()).v;
+    if (v > APP_VERSION) {
+      const inGame = $('game').classList.contains('on');
+      let last = 0; try { last = +sessionStorage.getItem('lesespiel-reload') || 0; } catch (e) {}
+      if (!manual && Date.now() - last < 60000) return;           // trava contra loop
+      if (manual || !inGame) {
+        try { sessionStorage.setItem('lesespiel-reload', String(Date.now())); } catch (e) {}
+        try { const reg = await navigator.serviceWorker.getRegistration(); if (reg) await reg.update(); } catch (e) {}
+        location.reload();
+      }
+    } else if (manual) alert('Você já está na versão mais nova (' + APP_VERSION + ').');
+  } catch (e) { if (manual) alert('Sem internet agora. Tente de novo com Wi-Fi.'); }
+}
+checkUpdate(false);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(false); });
 
 // offline: guarda o jogo no iPad depois da primeira abertura
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
