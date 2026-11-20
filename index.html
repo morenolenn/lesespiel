@@ -263,18 +263,21 @@
 <style>
   :root{
     --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px); --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
-    --bg1:#bfe6ff; --bg2:#9fd98a; --panel:#ffffff; --ink:#24324a; --accent:#ff8a3d;
+    --bg1:#bfe6ff; --bg2:#9fd98a; --panel:#ffffff; --ink:#24324a; --accent:#d35400; --accent-ink:#ffffff;
+    --btn:#2d6a4f; --btn-ink:#ffffff; --btn-soft:#e3f1e8; --btn-soft-ink:#1d3b2c;
     --good:#3bb273; --soft:#ffffffcc; --shadow:0 8px 0 rgba(0,0,0,.12);
     --dot:#ffffff88;
   }
   .theme-einhorn{
-    --bg1:#ffd6ec; --bg2:#d9c2ff; --panel:#ffffff; --ink:#4a2c5e; --accent:#ff6fb5;
+    --bg1:#ffd6ec; --bg2:#d9c2ff; --panel:#ffffff; --ink:#4a2c5e; --accent:#b0307e; --accent-ink:#ffffff;
+    --btn:#6f35b8; --btn-ink:#ffffff; --btn-soft:#f1e7fb; --btn-soft-ink:#3f2160;
     --good:#a66bff; --soft:#ffffffb3; --dot:#ffffffaa;
   }
   .theme-einhorn .title, .theme-einhorn #endStars, .theme-einhorn #endRecord{text-shadow:0 4px 0 #c46fd6;}
   .theme-einhorn .card.yes{box-shadow:0 0 0 10px #ffd84d, 0 0 30px #ff9de0, var(--shadow);}
   .theme-weltraum{
-    --bg1:#14193a; --bg2:#3a2a6b; --panel:#fdfbff; --ink:#24324a; --accent:#ffcc33;
+    --bg1:#14193a; --bg2:#3a2a6b; --panel:#fdfbff; --ink:#24324a; --accent:#ffcc33; --accent-ink:#1b1f3a;
+    --btn:#2c3a8f; --btn-ink:#ffffff; --btn-soft:#e7eafb; --btn-soft-ink:#1c2559;
     --good:#45d08a; --soft:#ffffff22; --dot:#ffffff44;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
@@ -299,7 +302,7 @@
   .title{font-size:clamp(40px,8vmin,84px); font-weight:800; margin:0 0 8px; text-align:center; color:#fff; text-shadow:0 4px 0 rgba(0,0,0,.18);}
   .mascot{font-size:clamp(90px,22vmin,220px); line-height:1; animation:bob 2.4s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-  .bigbtn{background:var(--accent); color:#fff; font-size:clamp(34px,6vmin,60px); font-weight:800; padding:.45em 1.4em; border-radius:999px; box-shadow:var(--shadow); margin-top:4vmin;}
+  .bigbtn{background:var(--accent); color:var(--accent-ink); font-size:clamp(34px,6vmin,60px); font-weight:800; padding:.45em 1.4em; border-radius:999px; box-shadow:var(--shadow); margin-top:4vmin;}
   .bigbtn:active{transform:translateY(4px); box-shadow:0 4px 0 rgba(0,0,0,.12);}
   .info{margin-top:3vmin; background:var(--soft); color:var(--ink); padding:.5em 1.1em; border-radius:20px; font-size:clamp(20px,3.4vmin,32px); font-weight:700;}
   .theme-weltraum .info{color:#fff;}
@@ -366,17 +369,19 @@
   .sheet{scrollbar-width:none;} .sheet::-webkit-scrollbar{display:none; width:0; height:0;}
   .sheethead{position:sticky; top:-24px; margin:-24px -24px 8px; padding:20px 24px 10px; background:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:2;}
   .sheethead h2{margin:0;}
-  .xbtn{width:48px; height:48px; border-radius:50%; background:#eef1f7; font-size:22px; line-height:48px; text-align:center; flex:none;}
+  .xbtn{width:48px; height:48px; border-radius:50%; background:var(--btn-soft); color:var(--btn-soft-ink); font-size:22px; line-height:48px; text-align:center; flex:none;}
   .sheet h3{margin:22px 0 8px; font-size:18px; color:#5b6680; text-transform:uppercase; letter-spacing:.05em;}
   .seg{display:flex; flex-wrap:wrap; gap:8px;}
-  .seg button{background:#eef1f7; padding:10px 16px; border-radius:12px; font-size:17px; min-height:48px;}
-  .seg button.sel{background:#24324a; color:#fff;}
+  .seg button{background:var(--btn-soft); color:var(--btn-soft-ink); padding:10px 16px; border-radius:12px; font-size:17px; min-height:48px;}
+  .seg button.sel{background:var(--btn); color:var(--btn-ink);}
+  .sheet a{color:var(--btn); font-weight:600;}
+  .explain{margin-top:8px; padding:10px 14px; border-radius:12px; background:var(--btn-soft); color:var(--btn-soft-ink); font-size:15px; line-height:1.45;}
   .sheet table{border-collapse:collapse; width:100%; font-size:16px;}
   .sheet td,.sheet th{padding:6px 8px; border-bottom:1px solid #eee; text-align:left;}
   .sheet .muted{color:#7a849a; font-size:15px;}
   .sheet .row{display:flex; gap:10px; justify-content:space-between; margin-top:24px; flex-wrap:wrap;}
   .sheet .danger{background:#fde8e8; color:#b42318; padding:12px 18px; border-radius:12px;}
-  .sheet .ok{background:#24324a; color:#fff; padding:12px 24px; border-radius:12px;}
+  .sheet .ok{background:var(--btn); color:var(--btn-ink); padding:12px 24px; border-radius:12px;}
 </style>
 </head>
 <body class="theme-wiese">
@@ -432,7 +437,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 7;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 8;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -894,6 +899,20 @@ function openWordList() {
   $('backParents').onclick = $('backParents2').onclick = openParents;
   $('closeParents').onclick = () => { $('parents').classList.remove('on'); renderHome(); };
 }
+function levelInfo(L) {
+  const fmt = x => (x / 1000).toFixed(1).replace('.', ',') + ' s';
+  const ms = LEVEL_MS[L - 1];
+  const ns = SENTENCES.map(nWords).filter(n => L > 2 || n <= 4);
+  const sMs = n => Math.max(2500, Math.round(ms * (1 + 0.55 * (n - 1))));
+  const words = L === 1 ? 'só palavras curtas, de até 4 letras (Ei, Kuh, Haus)'
+    : L === 2 ? 'palavras de até 5 letras (Katze, Apfel)'
+    : 'todas as palavras, inclusive as longas (Schildkröte, Schmetterling)';
+  const opts = L <= 2 ? 'as imagens erradas começam com letras bem diferentes, fácil de distinguir'
+    : L === 3 ? 'as imagens erradas são sorteadas'
+    : 'as imagens erradas são de palavras parecidas (Maus · Mais · Mond), é preciso ler a palavra inteira';
+  const sent = ns.length ? `Frases ${L <= 2 ? 'curtas (até 4 palavras)' : 'de todos os tamanhos'}: ${fmt(sMs(Math.min(...ns)))} a ${fmt(sMs(Math.max(...ns)))} na tela.` : '';
+  return `<b>Nível ${L}:</b> a palavra fica <b>${fmt(ms)}</b> na tela; ${words}; ${opts}. ${sent}`;
+}
 function openParents() {
   const s = P.settings;
   const seg = (key, opts) => `<div class="seg" data-key="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(s[key]) === String(v) ? 'sel' : ''}">${l}</button>`).join('')}</div>`;
@@ -902,17 +921,21 @@ function openParents() {
   const curLvl = P.level[s.lang];
   $('sheet').innerHTML = `
     <div class="sheethead"><h2>Modo pais</h2><button class="xbtn" id="closeParents" aria-label="Fechar">✕</button></div>
-    <div class="muted">Versão ${APP_VERSION} · <a href="#" id="updNow" style="color:#4d6bff">verificar atualização</a></div>
+    <div class="muted">Versão ${APP_VERSION} · <a href="#" id="updNow">verificar atualização</a></div>
     <div class="muted">Nível atual (${s.lang.toUpperCase()}): ${curLvl ? curLvl + ' · palavra aparece ' + (P.ms[s.lang] / 1000).toFixed(2) + ' s' : 'ainda não jogou'}</div>
     <h3>Idioma das palavras</h3>${seg('lang', [['de', 'Deutsch'], ['pt', 'Português']])}
     <h3>Tema</h3>${seg('theme', Object.entries(THEMES).map(([k, v]) => [k, v.mascot + ' ' + v.name]))}
     <h3>Dificuldade inicial</h3>${seg('startLevel', LEVEL_MS.map((ms, i) => [i + 1, `${i + 1} · ${(ms / 1000).toFixed(1).replace('.', ',')} s`]))}
-    <div class="muted" style="margin-top:6px">Mudar aqui reinicia o nível salvo. Depois o jogo se ajusta sozinho: sobe após 3 acertos de primeira seguidos, desce após 2 rodadas com erro.</div>
+    <div class="explain">${levelInfo(s.startLevel)}</div>
+    <div class="muted" style="margin-top:6px">Mudar aqui reinicia o nível salvo. Depois o jogo se ajusta sozinho: sobe após 3 acertos de primeira seguidos, desce após 2 rodadas com erro. Cada acerto de primeira também encurta o tempo em ~6%.</div>
     <h3>Conteúdo</h3>${seg('content', [['mix', 'Palavras + frases'], ['words', 'Só palavras'], ['sentences', 'Só frases']])}
+    <div class="explain">${s.content === 'mix' ? 'Cerca de 1 em cada 3 rodadas é uma frase; as outras são palavras soltas.' : s.content === 'words' ? 'Só palavras soltas: treina reconhecer a palavra rápido.' : 'Só frases: depois da frase aparecem 4 cenas; as erradas trocam quem faz a ação ou o objeto, então é preciso ler a frase toda.'}</div>
     <h3>Sessão</h3>${seg('rounds', [[5, '5 rodadas'], [10, '10 rodadas'], [15, '15 rodadas']])}
     <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
+    <div class="explain">A sessão termina no que vier primeiro: ${s.rounds} rodadas ou ${s.maxMin} minutos.</div>
     <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
     <div style="height:8px"></div>${seg('rate', [[0.7, 'Voz lenta'], [0.85, 'Voz normal'], [1, 'Voz rápida']])}
+    <div class="explain">Sons são os efeitos de acerto e estrela. A velocidade só vale para a voz do iPad; as vozes gravadas já falam devagar.</div>
     <h3>Voz (${s.lang.toUpperCase()})</h3>
     <div class="muted">Toque numa voz para ouvir e escolher.</div>
     <div class="seg" id="recList" style="margin-top:8px">${[...RECORDED[s.lang], ['system', 'Voz do iPad']].map(([k, n]) => `<button data-rec="${k}" class="${(recKey() || 'system') === k ? 'sel' : ''}">${k === 'system' ? '📱 ' : '🎙️ '}${n}</button>`).join('')}</div>
