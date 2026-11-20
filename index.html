@@ -372,7 +372,7 @@ const UI = {
 /* ---------- storage ---------- */
 const KEY = 'laras-lesespiel-v1';
 const DEFAULTS = {
-  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85 },
+  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, voice: {} },
   totalStars: 0,
   record: { de: 0, pt: 0 },
   level: { de: null, pt: null },
@@ -427,7 +427,29 @@ const sfx = {
 /* ---------- speech ---------- */
 let voices = [];
 function loadVoices() { try { voices = speechSynthesis.getVoices(); } catch (e) {} }
-if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = () => { loadVoices(); const vl = document.getElementById('voiceList'); if (vl) vl.innerHTML = voiceButtons(); }; }
+// Apple traz vozes "de brincadeira" (Eddy, Grandpa, Rocko, Zarvox...) que soam robóticas.
+// Evitamos essas e preferimos as vozes naturais (Premium/Enhanced) ou as clássicas boas.
+const NOVELTY = /eddy|flo|grandma|grandpa|oma|opa|reed|rocko|sandy|shelley|albert|bad news|good news|bahh|bells|boing|bubbles|cellos|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|ellen/i;
+const GOOD = { de: /anna|petra|helena|marlene|markus|yannick|viktor|katja|conrad|amala|vicki/i, pt: /luciana|felipe|fernanda|joana|catarina/i };
+function voiceScore(v, code) {
+  let sc = 0;
+  if (v.lang === code) sc += 4; else if (v.lang && v.lang.replace('_', '-').startsWith(code.slice(0, 2))) sc += 2; else return -1;
+  if (NOVELTY.test(v.name)) return 0;
+  if (/premium/i.test(v.name) || /premium/i.test(v.voiceURI || '')) sc += 6;
+  if (/enhanced|erweitert|aprimorad|melhorad/i.test(v.name) || /enhanced/i.test(v.voiceURI || '')) sc += 4;
+  if (GOOD[code.slice(0, 2)] && GOOD[code.slice(0, 2)].test(v.name)) sc += 3;
+  if (v.localService) sc += 1;
+  return sc;
+}
+function voicesFor(code) {
+  return voices.map(v => ({ v, sc: voiceScore(v, code) })).filter(x => x.sc > 0).sort((a, b) => b.sc - a.sc).map(x => x.v);
+}
+function pickVoice(code) {
+  const chosen = P.settings.voice && P.settings.voice[code.slice(0, 2)];
+  const all = voices.filter(v => v.lang && v.lang.replace('_', '-').startsWith(code.slice(0, 2)));
+  return (chosen && all.find(v => v.voiceURI === chosen)) || voicesFor(code)[0] || all[0] || null;
+}
 function speak(text) {
   if (!('speechSynthesis' in window)) return;
   try {
@@ -435,8 +457,8 @@ function speak(text) {
     const u = new SpeechSynthesisUtterance(text);
     const code = lang() === 'de' ? 'de-DE' : 'pt-BR';
     u.lang = code; u.rate = P.settings.rate;
-    const v = voices.find(v => v.lang === code) || voices.find(v => v.lang && v.lang.startsWith(code.slice(0, 2)));
-    if (v) u.voice = v;
+    const v = pickVoice(code);
+    if (v) { u.voice = v; u.lang = v.lang; }
     speechSynthesis.speak(u);
   } catch (e) {}
 }
@@ -654,6 +676,13 @@ function confetti() {
 }
 
 /* ---------- parents mode ---------- */
+function voiceButtons() {
+  const code = lang() === 'de' ? 'de-DE' : 'pt-BR';
+  const list = voicesFor(code);
+  if (!list.length) return '<span class="muted">Nenhuma voz encontrada neste aparelho.</span>';
+  const cur = pickVoice(code);
+  return list.slice(0, 12).map(v => `<button data-uri="${v.voiceURI.replace(/"/g, '&quot;')}" class="${cur && cur.voiceURI === v.voiceURI ? 'sel' : ''}">${v.name}</button>`).join('');
+}
 function openParents() {
   const s = P.settings;
   const seg = (key, opts) => `<div class="seg" data-key="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(s[key]) === String(v) ? 'sel' : ''}">${l}</button>`).join('')}</div>`;
@@ -674,6 +703,9 @@ function openParents() {
     <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
     <h3>Som e voz</h3>${seg('sound', [[true, '🔊 Sons ligados'], [false, '🔇 Sons desligados']])}
     <div style="height:8px"></div>${seg('rate', [[0.7, 'Voz lenta'], [0.85, 'Voz normal'], [1, 'Voz rápida']])}
+    <h3>Voz (${s.lang.toUpperCase()})</h3>
+    <div class="muted">Toque numa voz para ouvir e escolher. As vozes Premium/Melhorada são as mais naturais.</div>
+    <div class="seg" id="voiceList" style="margin-top:8px">${voiceButtons()}</div>
     <h3>Últimas sessões</h3>
     <table><tr><th>Quando</th><th></th><th>Estrelas</th><th>Nível</th><th>Tempo final</th></tr>${sess}</table>
     <h3>Palavras (${WORDS.length}, ${s.lang.toUpperCase()}) — mais difíceis primeiro</h3>
@@ -682,6 +714,13 @@ function openParents() {
     <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button><button class="ok" id="closeParents">Fechar</button></div>`;
   $('sheet').querySelectorAll('.seg').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.uri) {
+      const two = lang();
+      P.settings.voice = Object.assign({}, P.settings.voice, { [two]: b.dataset.uri });
+      save(); speak(two === 'de' ? 'Hallo Lara! Super gemacht!' : 'Oi Lara! Muito bem!');
+      g.querySelectorAll('button').forEach(x => x.classList.toggle('sel', x === b));
+      return;
+    }
     const key = g.dataset.key; let v = b.dataset.v;
     if (v === 'true' || v === 'false') v = v === 'true'; else if (!isNaN(Number(v))) v = Number(v);
     P.settings[key] = v;
