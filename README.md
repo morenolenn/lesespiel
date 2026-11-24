@@ -34,6 +34,13 @@ Na home, **🔢 Rechnen** abre os exercícios de matemática, baseados nas prova
 
 Níveis 1 a 3, com o mesmo ajuste automático do Lesen. No modo pais dá para ligar e desligar cada tipo e ver os acertos.
 
+- **⏭ Überspringen:** ela pode pular um exercício (com um segundo toque de confirmação). No fim da sessão o jogo volta aos pulados, como ela deve fazer na prova; se acertar, ganha a estrela.
+- **🔖 Merken:** marca o exercício para vocês revisarem. Em Modo pais → Rechnen → "Exercícios para revisar" aparecem os marcados e os pulados, já com a solução, e um botão para treinar só os marcados.
+
+## Modo pais
+
+Segure a ⚙️ por 1 segundo. Três abas: **Geral** (tema, tamanho da sessão, sons, foto, últimas sessões), **Lesen** (idioma, nível, conteúdo, voz, palavras) e **Rechnen** (exercícios para revisar, nível, tipos, resultados).
+
 ## Arquivos
 
 | Arquivo | O que é |
@@ -63,9 +70,9 @@ Níveis 1 a 3, com o mesmo ajuste automático do Lesen. No modo pais dá para li
 ## Publicar uma atualização
 
 1. Aumente a versão em **três** lugares, com o mesmo número:
-   - `index.html` → `const APP_VERSION = 13;`
-   - `version.json` → `{"v":13}`
-   - `sw.js` → `const CACHE = 'lesespiel-v13';`
+   - `index.html` → `const APP_VERSION = 14;`
+   - `version.json` → `{"v":14}`
+   - `sw.js` → `const CACHE = 'lesespiel-v14';`
 2. `git add -A && git commit -m "..." && git push`
 3. Em ~1 minuto está no ar. O iPad se atualiza sozinho ao abrir ou voltar para o app (confira em Modo pais → "Versão N").
 
