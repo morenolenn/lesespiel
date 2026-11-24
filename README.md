@@ -16,7 +16,7 @@ Jogo de leitura para iPad que treina reconhecer palavras e frases rápido (mesmo
 - **Dificuldade (níveis 1 a 6):** a palavra fica de 3,0 s a 0,7 s na tela. Cada acerto de primeira encurta o tempo ~6%; 3 acertos seguidos sobem 1 nível; 2 rodadas com erro descem 1 nível.
 - **Frases:** depois da frase aparecem 4 cenas de dois emojis; as erradas trocam quem faz a ação, o objeto, ou os dois.
 - **Sessão:** 10 rodadas ou 5 minutos (ajustável).
-- **Modo pais:** segure a ⚙️ por 1 segundo.
+- **Modo pais:** toque na ⚙️.
 
 ## Rechnen (matemática)
 
@@ -39,7 +39,7 @@ Níveis 1 a 3, com o mesmo ajuste automático do Lesen. No modo pais dá para li
 
 ## Modo pais
 
-Segure a ⚙️ por 1 segundo. Três abas: **Geral** (tema, tamanho da sessão, sons, foto, últimas sessões), **Lesen** (idioma, nível, conteúdo, voz, palavras) e **Rechnen** (exercícios para revisar, nível, tipos, resultados).
+Toque na ⚙️. Três abas: **Geral** (tema, tamanho da sessão, sons, foto, últimas sessões), **Lesen** (idioma, nível, conteúdo, voz, palavras) e **Rechnen** (exercícios para revisar, nível, tipos, resultados).
 
 ## Arquivos
 
@@ -70,9 +70,9 @@ Segure a ⚙️ por 1 segundo. Três abas: **Geral** (tema, tamanho da sessão, 
 ## Publicar uma atualização
 
 1. Aumente a versão em **três** lugares, com o mesmo número:
-   - `index.html` → `const APP_VERSION = 14;`
-   - `version.json` → `{"v":14}`
-   - `sw.js` → `const CACHE = 'lesespiel-v14';`
+   - `index.html` → `const APP_VERSION = 15;`
+   - `version.json` → `{"v":15}`
+   - `sw.js` → `const CACHE = 'lesespiel-v15';`
 2. `git add -A && git commit -m "..." && git push`
 3. Em ~1 minuto está no ar. O iPad se atualiza sozinho ao abrir ou voltar para o app (confira em Modo pais → "Versão N").
 

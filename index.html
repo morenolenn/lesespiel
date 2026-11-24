@@ -313,9 +313,6 @@
   #camBtn{position:absolute; right:-6px; bottom:-6px; width:58px; height:58px; border-radius:50%; background:#fff; font-size:28px; box-shadow:0 4px 0 rgba(0,0,0,.12);}
   /* gear (parents) */
   #gear{position:fixed; top:calc(var(--sat) + 28px); right:calc(var(--sar) + 20px); width:64px; height:64px; border-radius:50%; background:var(--soft); font-size:30px; display:flex; align-items:center; justify-content:center; z-index:5;}
-  #gear svg{position:absolute; inset:0; transform:rotate(-90deg);}
-  #gear circle{fill:none; stroke:var(--accent); stroke-width:5; stroke-dasharray:189; stroke-dashoffset:189;}
-  #gear.hold circle{transition:stroke-dashoffset 1.2s linear; stroke-dashoffset:0;}
 
   /* game */
   #topbar{position:absolute; top:calc(var(--sat) + 24px); left:calc(var(--sal) + 16px); right:calc(var(--sar) + 16px); display:flex; align-items:center; gap:12px;}
@@ -486,7 +483,7 @@
 
 <div id="deco"></div>
 
-<button id="gear" aria-label="Modo pais (segure)">⚙️<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/></svg></button>
+<button id="gear" aria-label="Modo pais">⚙️</button>
 
 <!-- HOME -->
 <section id="home" class="screen on">
@@ -544,7 +541,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 14;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 15;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -1611,15 +1608,8 @@ function openParents() {
   $('parents').classList.add('on');
 }
 
-// long-press (1,2 s) to open — so Lara doesn't open it by accident
-(() => {
-  const g = $('gear'); let id = null;
-  const startHold = e => { e.preventDefault(); g.classList.add('hold'); id = setTimeout(() => { g.classList.remove('hold'); openParents(); }, 1200); };
-  const stopHold = () => { clearTimeout(id); g.classList.remove('hold'); };
-  g.addEventListener('pointerdown', startHold);
-  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => g.addEventListener(ev, stopHold));
-  g.addEventListener('contextmenu', e => e.preventDefault());
-})();
+// engrenagem: um toque abre o modo pais
+$('gear').addEventListener('click', openParents);
 
 /* ---------- wiring ---------- */
 $('startBtn').addEventListener('click', () => startSession('read'));
