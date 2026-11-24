@@ -352,6 +352,79 @@
   .card.pop{animation:popin .25s ease-out both;}
   @keyframes popin{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
 
+  /* ---- home: dois modos ---- */
+  .modes{display:flex; gap:3vmin; margin-top:4vmin; flex-wrap:wrap; justify-content:center;}
+  .modes .bigbtn{margin-top:0; font-size:clamp(30px,5vmin,52px); padding:.45em 1.1em;}
+  .bigbtn.alt{background:var(--btn); color:var(--btn-ink);}
+  /* ---- rechnen ---- */
+  #mstage{display:none; width:min(94vw,1120px); height:calc(100dvh - 100px - var(--sat) - var(--sab) - 32px); gap:2.5vmin; grid-template-rows:1fr auto;}
+  #game.math #stage{display:none;} #game.math #mstage{display:grid;}
+  @media (min-aspect-ratio: 1/1){ #mstage{grid-template-columns:1.55fr 1fr; grid-template-rows:1fr;} }
+  #mtask{position:relative; background:var(--panel); border-radius:32px; box-shadow:var(--shadow); padding:22px 26px; overflow:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; color:var(--ink);}
+  #mtask::-webkit-scrollbar{display:none;}
+  #mtitle{font-size:clamp(20px,2.8vmin,28px); font-weight:800; color:var(--btn); margin:0 0 12px 0;}
+  .wtext{font-size:clamp(28px,4.6vmin,46px); line-height:1.4; margin:4px 0 14px; font-weight:600;}
+  .wtext.story{font-size:clamp(20px,2.9vmin,28px); font-weight:500;}
+  .eq{font-size:clamp(40px,7vmin,76px); font-weight:800; letter-spacing:.02em; margin:10px 0; display:flex; flex-wrap:wrap; align-items:center; gap:.25em;}
+  .eq.sub{font-size:clamp(28px,4.6vmin,50px);}
+  .tag{color:var(--btn); font-size:.7em; margin-right:.2em;}
+  .blank{display:inline-flex; align-items:center; justify-content:center; min-width:1.7em; height:1.25em; padding:0 .15em; border:4px dashed var(--btn); border-radius:14px; background:#fff; color:var(--ink); cursor:pointer; vertical-align:middle;}
+  .blank.active{border-style:solid; background:var(--btn-soft); box-shadow:0 0 0 5px color-mix(in srgb, var(--btn) 25%, transparent);}
+  .blank.ok{border:4px solid var(--good); background:#e3f7ea; color:#14532d; cursor:default;}
+  .blank.ghost:empty::before{content:attr(data-ghost); opacity:.28;}
+  .blank.shake{animation:wobble .45s;}
+  .opslot{display:inline-flex; align-items:center; justify-content:center; width:1.2em; height:1.2em; border:4px dashed #9aa3b5; border-radius:12px; color:#9aa3b5;}
+  .opslot.set{border-color:var(--good); color:var(--ink); border-style:solid;}
+  .mstep{margin-top:6px;}
+  .mchoice{display:flex; gap:14px; margin:10px 0 6px; flex-wrap:wrap;}
+  .mchoice button{min-width:110px; min-height:90px; font-size:56px; font-weight:800; border-radius:22px; background:var(--btn-soft); color:var(--btn-soft-ink); box-shadow:0 5px 0 rgba(0,0,0,.1);}
+  .mchoice.answers{flex-direction:column;}
+  .mchoice.answers button{font-size:clamp(20px,2.8vmin,28px); font-weight:600; text-align:left; padding:14px 20px; min-height:64px;}
+  .mchoice button.ok{background:var(--good); color:#fff;}
+  .mchoice button.nope{opacity:.3; pointer-events:none; animation:wobble .45s;}
+  .mchoice button.gone{opacity:.25;}
+  #mhint{display:none; margin-top:14px; padding:14px 18px; border-radius:18px; background:#fff7e0; color:#4a3b12; font-size:clamp(18px,2.6vmin,24px); line-height:1.45; gap:12px; align-items:flex-start;}
+  #mhint.on{display:flex; animation:popin .25s ease-out;}
+  #mhint p{margin:4px 0;} .hicon{font-size:30px; line-height:1;}
+  #mside{display:flex; flex-direction:column; justify-content:flex-end; gap:12px;}
+  #keypad{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; transition:opacity .2s;}
+  #keypad.off{opacity:.3; pointer-events:none;}
+  #mside.hide{display:none;}
+  #mstage:has(#mside.hide){grid-template-columns:1fr;}
+  .key{height:clamp(64px,9.5vmin,100px); font-size:clamp(32px,5vmin,48px); font-weight:800; border-radius:22px; background:var(--panel); color:var(--ink); box-shadow:0 6px 0 rgba(0,0,0,.12);}
+  .key:active{transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,.12);}
+  .key.kok{background:var(--good); color:#fff;} .key.kdel{background:var(--btn-soft); color:var(--btn-soft-ink);}
+  /* dicas visuais */
+  .tenfield{display:grid; grid-template-columns:repeat(10,26px); gap:6px; margin:8px 0;}
+  .tenfield i{width:26px; height:26px; border-radius:50%; border:2px solid #c9ced8; position:relative;}
+  .tenfield i:nth-child(10n+6){margin-left:8px;}
+  .tenfield i.r{background:#e5533d; border-color:#e5533d;} .tenfield i.b{background:#3d7be5; border-color:#3d7be5;}
+  .tenfield i.x{background:#f6c9c1; border-color:#e5533d;} .tenfield i.x::after{content:'✕'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#b42318; font-size:16px; font-weight:800;}
+  .tensones{display:flex; gap:8px; align-items:flex-end; margin:8px 0; flex-wrap:wrap;}
+  .tensones .rod{width:16px; height:90px; border-radius:4px; background:repeating-linear-gradient(#3d7be5 0 8px, #fff 8px 9px); border:1px solid #2a5fbf;}
+  .tensones span{display:flex; gap:5px; flex-wrap:wrap; max-width:120px; margin-left:10px;}
+  .tensones .one{width:16px; height:16px; background:#e5533d; border-radius:3px;}
+  .nline{display:flex; align-items:center; gap:6px; margin:8px 0; flex-wrap:wrap;}
+  .nline span{display:flex; flex-direction:column; align-items:center; padding:6px 12px; border-radius:12px; background:#fff; border:2px solid #d9c27a;}
+  .nline span.q{border-color:var(--btn); background:var(--btn-soft);}
+  .nline span.arr{border:0; background:none; padding:0; font-size:22px;}
+  .nline b{font-size:28px;} .nline em{font-style:normal; font-size:14px;}
+  .wall{display:flex; flex-direction:column; align-items:center; gap:6px; margin:10px 0;}
+  .wrow{display:flex; gap:6px;}
+  .brick{width:clamp(80px,13vmin,124px); height:clamp(64px,9vmin,90px); display:flex; align-items:center; justify-content:center; font-size:clamp(28px,4.4vmin,40px); font-weight:800; background:#fbe3d2; border:3px solid #b85c38; border-radius:8px;}
+  .brick .blank{font-size:inherit; height:1.3em; min-width:1.7em; border-width:3px;}
+  .tri{position:relative; width:min(460px,80vw,52vh); aspect-ratio:1/1; margin:6px auto;}
+  .tri svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+  .tri polygon{fill:#fff; stroke:#24324a; stroke-width:3;} .tri line{stroke:#24324a; stroke-width:2.5;}
+  .tin,.tout{position:absolute; transform:translate(-50%,-50%); font-size:clamp(26px,4vmin,38px); font-weight:800;}
+  .t0{left:50%; top:37%;} .t1{left:33%; top:69%;} .t2{left:67%; top:69%;}
+  .o3{left:13%; top:38%;} .o4{left:87%; top:38%;} .o5{left:50%; top:93%;}
+  .tout .given,.tout .blank{border-radius:999px;} .tout .given{display:inline-block; padding:2px 14px; border:3px solid #24324a; border-radius:999px; background:#fff;}
+  .tri .blank{font-size:inherit; height:1.3em; min-width:1.8em; border-width:3px;}
+  .shop{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:4px 0 12px;}
+  .ware{display:flex; flex-direction:column; align-items:center; padding:8px 6px; border-radius:16px; background:#fdf6ec; border:2px solid #ead7bd;}
+  .ware span{font-size:clamp(30px,4.6vmin,44px); line-height:1.1;} .ware b{font-size:15px; text-align:center;}
+  .ware em{font-style:normal; font-weight:800; font-size:20px; background:#fff; border:2px solid #24324a; border-radius:8px; padding:0 8px; margin-top:4px;}
   #cheer{position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(0); font-size:clamp(48px,10vmin,110px); font-weight:800; color:#fff; text-shadow:0 5px 0 rgba(0,0,0,.2); pointer-events:none; transition:transform .25s; z-index:6; text-align:center;}
   #cheer.on{transform:translate(-50%,-50%) scale(1);}
   #flystar{position:fixed; font-size:80px; pointer-events:none; z-index:7; display:none;}
@@ -401,7 +474,7 @@
   <h1 class="title" id="homeTitle">Laras Lesespiel</h1>
   <div class="avatarwrap"><div class="mascot" id="homeMascot">🦊</div><button id="camBtn" aria-label="Foto">📷</button></div>
   <input type="file" id="photoInput" accept="image/*" hidden>
-  <button class="bigbtn" id="startBtn">Los! ▶</button>
+  <div class="modes"><button class="bigbtn" id="startBtn">📖 Lesen</button><button class="bigbtn alt" id="mathBtn">🔢 Rechnen</button></div>
   <div class="info" id="homeInfo"></div>
 </section>
 
@@ -419,6 +492,15 @@
       <button id="hear" aria-label="Wort anhören">🔊</button>
     </div>
     <div id="grid"></div>
+  </div>
+  <div id="mstage">
+    <div id="mtask">
+      <div id="mtitle"></div>
+      <div id="mhead"></div>
+      <div id="msteps"></div>
+      <div id="mhint"></div>
+    </div>
+    <div id="mside"><div id="keypad"></div></div>
   </div>
 </section>
 
@@ -443,7 +525,7 @@
 'use strict';
 
 /* ---------- data ---------- */
-const APP_VERSION = 12;   // suba este número a cada publicação (e em version.json)
+const APP_VERSION = 13;   // suba este número a cada publicação (e em version.json)
 const DATA = JSON.parse(document.getElementById('words').textContent);
 const WORDS = DATA.words;
 const SENTENCES = (() => { try { return JSON.parse(document.getElementById('sentences').textContent).sentences; } catch (e) { return []; } })();
@@ -461,11 +543,11 @@ const THEMES = {
 };
 
 const UI = {
-  de: { start: 'Los! ▶', again: 'Nochmal ▶', done: 'Geschafft!', record: 'Neuer Rekord! 🏆',
+  de: { read: '📖 Lesen', math: '🔢 Rechnen', recs: 'Rekord:', start: 'Los! ▶', again: 'Nochmal ▶', done: 'Geschafft!', record: 'Neuer Rekord! 🏆',
         best: n => `Dein Rekord: ⭐ ${n}`, total: n => `Sternensammlung: ⭐ ${n}`,
         cheers: ['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Juhu!', 'Wow!'], title: 'Laras Lesespiel',
         you: n => `⭐ ${n} Sterne!` },
-  pt: { start: 'Vamos! ▶', again: 'De novo ▶', done: 'Conseguiu!', record: 'Novo recorde! 🏆',
+  pt: { read: '📖 Ler', math: '🔢 Contas', recs: 'Recorde:', start: 'Vamos! ▶', again: 'De novo ▶', done: 'Conseguiu!', record: 'Novo recorde! 🏆',
         best: n => `Seu recorde: ⭐ ${n}`, total: n => `Coleção de estrelas: ⭐ ${n}`,
         cheers: ['Muito bem!', 'Isso!', 'Show!', 'Demais!', 'Uhuu!', 'Uau!'], title: 'Jogo de Leitura da Lara',
         you: n => `⭐ ${n} estrelas!` },
@@ -474,12 +556,13 @@ const UI = {
 /* ---------- storage ---------- */
 const KEY = 'laras-lesespiel-v1';
 const DEFAULTS = {
-  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, content: 'mix', voice: {}, rec: { de: 'tanja', pt: 'francisca' } },
+  settings: { lang: 'de', theme: 'wiese', startLevel: 1, rounds: 10, maxMin: 5, sound: true, rate: 0.85, content: 'mix', mathStart: 1, mathTypes: {}, voice: {}, rec: { de: 'tanja', pt: 'francisca' } },
   totalStars: 0,
-  record: { de: 0, pt: 0 },
+  record: { de: 0, pt: 0, math: 0 },
+  mathLevel: null,
   level: { de: null, pt: null },
   ms: { de: null, pt: null },
-  stats: { de: {}, pt: {} },
+  stats: { de: {}, pt: {}, math: {} },
   sessions: [],
 };
 const clone = o => JSON.parse(JSON.stringify(o));
@@ -641,16 +724,17 @@ function applyTheme() {
 function renderHome() {
   applyTheme();
   $('homeTitle').textContent = t().title;
-  $('startBtn').textContent = t().start;
+  $('startBtn').textContent = t().read; $('mathBtn').textContent = t().math;
   $('againBtn').textContent = t().again;
-  $('homeInfo').innerHTML = `${t().total(P.totalStars)} &nbsp;·&nbsp; ${t().best(P.record[lang()] || 0)}`;
+  $('homeInfo').innerHTML = `${t().total(P.totalStars)} &nbsp;·&nbsp; ${t().recs} 📖 ${P.record[lang()] || 0} &nbsp;🔢 ${P.record.math || 0}`;
   show('home');
 }
 
 /* ---------- game state ---------- */
 let G = null;
 
-function startSession() {
+function startSession(mode) {
+  mode = mode === 'math' ? 'math' : 'read';
   audio();
   try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen || (() => {})).call(el); } catch (e) {}
   const savedLvl = P.level[lang()];
@@ -660,6 +744,13 @@ function startSession() {
     round: 0, stars: 0, t0: Date.now(), recent: [], results: [],
     target: null, options: [], attempt: 0, locked: true, startLevel: level, startMs: LEVEL_MS[level - 1],
   };
+  G.mode = mode;
+  if (mode === 'math') {
+    G.level = P.mathLevel ? Math.max(1, P.mathLevel - 1) : P.settings.mathStart; G.startLevel = G.level;
+    G.ms = 0; G.lastType = null;
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
+  $('game').classList.toggle('math', mode === 'math');
   renderDots(); updateStars();
   show('game');
   later(nextRound, 400);
@@ -731,6 +822,7 @@ function sessionOver() {
 }
 
 function nextRound() {
+  if (G.mode === 'math') return nextMathRound();
   if (sessionOver()) return endSession();
   const sentence = wantSentence();
   G.target = sentence ? pickSentence() : pickTarget();
@@ -822,11 +914,11 @@ function success(card) {
 
 function endSession() {
   clearTimers();
-  const l = lang();
+  const l = G.mode === 'math' ? 'math' : lang();
   const isRecord = G.stars > (P.record[l] || 0);
   if (isRecord) P.record[l] = G.stars;
   P.totalStars += G.stars;
-  P.level[l] = G.level; P.ms[l] = G.ms;
+  if (G.mode === 'math') P.mathLevel = G.level; else { P.level[l] = G.level; P.ms[l] = G.ms; }
   P.sessions.unshift({ d: new Date().toISOString(), lang: l, stars: G.stars, rounds: G.round, lvl0: G.startLevel, lvl1: G.level, ms: G.ms, min: Math.round((Date.now() - G.t0) / 6000) / 10 });
   P.sessions = P.sessions.slice(0, 40);
   save();
@@ -875,6 +967,370 @@ function confetti() {
   })(t0);
 }
 
+/* ======================= RECHNEN (matemática) ======================= */
+const MATH_TYPES = {
+  zehner:      { de: 'Über den Zehner',     pt: 'Passar a dezena (4 + 8, 12 − 7)' },
+  platzhalter: { de: 'Platzhalter',         pt: 'Número que falta (__ + 5 = 13)' },
+  umkehr:      { de: 'Umkehraufgabe',       pt: 'Conta inversa (12 + 5 = 17 → 17 − 5 = 12)' },
+  welche:      { de: 'Welche Zahl ist es?', pt: 'Antecessor / sucessor, dezenas e unidades' },
+  mauer:       { de: 'Rechenmauer',         pt: 'Muro de contas' },
+  dreieck:     { de: 'Rechendreieck',       pt: 'Triângulo de contas' },
+  geschichte:  { de: 'Rechengeschichte',    pt: 'Problema com dinheiro (lojinha)' },
+};
+const MATH_LEVELS = 3;
+const SHOP = [
+  { id: 'postkarte', emoji: '💌', name: 'Postkarte', price: 1 },
+  { id: 'kette', emoji: '📿', name: 'Kette', price: 6 },
+  { id: 'fisch', emoji: '🐟', name: 'Fisch', price: 7 },
+  { id: 'herz', emoji: '💖', name: 'Herz', price: 8 },
+  { id: 'hut', emoji: '👒', name: 'Hut', price: 18 },
+  { id: 'fahrt', emoji: '⛴️', name: 'Schifffahrt Kind', price: 6 },
+];
+const ACC = { kette: 'eine Kette', fisch: 'einen Fisch', herz: 'ein Herz', hut: 'einen Hut', fahrt: 'eine Kinder-Fahrkarte' };
+const NUMWORD = ['', 'eine', 'zwei', 'drei'];
+const PEOPLE = [['Nina', 'sie'], ['Lilli', 'sie'], ['Ben', 'er'], ['Tom', 'er']];
+
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pickOne = a => a[Math.floor(Math.random() * a.length)];
+const B = id => `<span class="blank" data-b="${id}"></span>`;
+const mstat = ty => { const s = P.stats.math || (P.stats.math = {}); return s[ty] || (s[ty] = { s: 0, c: 0, m: 0 }); };
+
+// ---- recursos visuais das dicas ----
+function tenField(a, b, op) {           // Zwanzigerfeld: 2 fileiras de 10
+  let dots = '';
+  for (let i = 0; i < 20; i++) {
+    let cls = 'e';
+    if (op === '+') cls = i < a ? 'r' : i < a + b ? 'b' : 'e';
+    else cls = i < a - b ? 'r' : i < a ? 'x' : 'e';
+    dots += `<i class="${cls}"></i>`;
+  }
+  return `<div class="tenfield">${dots}</div>`;
+}
+function tensOnes(z, e) {
+  return `<div class="tensones">${'<i class="rod"></i>'.repeat(z)}<span>${'<i class="one"></i>'.repeat(e)}</span></div>`;
+}
+function nline(cells) {               // cells: [[valor, rótulo, destaque]]
+  return `<div class="nline">${cells.map(([v, l, q]) => `<span class="${q ? 'q' : ''}"><b>${v}</b><em>${l}</em></span>`).join('<span class="arr">→</span>')}</div>`;
+}
+
+// ---- solucionador para muro e triângulo: relações x + y = z ----
+function solveOrder(vals, rels, hidden) {
+  const known = vals.map((_, i) => !hidden.includes(i)); const order = [];
+  let progress = true;
+  while (progress) {
+    progress = false;
+    for (const [x, y, z] of rels) {
+      const k = [known[x], known[y], known[z]];
+      if (k.filter(Boolean).length !== 2) continue;
+      if (!k[2]) { known[z] = true; order.push({ i: z, h: `${vals[x]} + ${vals[y]} = <b>${vals[z]}</b>` }); }
+      else if (!k[0]) { known[x] = true; order.push({ i: x, h: `${vals[z]} − ${vals[y]} = <b>${vals[x]}</b>` }); }
+      else { known[y] = true; order.push({ i: y, h: `${vals[z]} − ${vals[x]} = <b>${vals[y]}</b>` }); }
+      progress = true;
+    }
+  }
+  return known.every(Boolean) ? order : null;
+}
+function hideCells(vals, rels, target, candidates, mustFirst) {
+  let hidden = mustFirst != null ? [mustFirst] : [];
+  for (const c of shuffle(candidates)) {
+    if (hidden.length >= target) break;
+    if (hidden.includes(c)) continue;
+    if (solveOrder(vals, rels, [...hidden, c])) hidden.push(c);
+  }
+  return hidden;
+}
+
+// ---- geradores: cada um devolve { type, title, head, steps } ----
+// step = { html, blanks:[{id, ans, h2}], choice?:{options:[{label, ok}]}, hint:[h1, h2] }
+function genZehner(L) {
+  const minus = L >= 2 && Math.random() < 0.5;
+  if (!minus) {
+    let a, b; do { a = ri(2, 9); b = ri(2, 9); } while (a + b <= 10 || a + b > 18);
+    const fill = 10 - a, rest = b - fill;
+    return { type: 'zehner', title: 'Rechne über den Zehner!', steps: [{
+      html: `<div class="eq">${a} + ${b} = ${B('r')}</div>`, blanks: [{ id: 'r', ans: a + b }],
+      hint: [`${tenField(a, b, '+')}<p>Erst bis 10: ${a} + <b>${fill}</b> = 10. Dann noch <b>${rest}</b> dazu.</p>`,
+             `<p>${a} + ${fill} + ${rest} = 10 + ${rest} = <b>${a + b}</b></p>`] }] };
+  }
+  let m, s; do { m = ri(11, 18); s = ri(2, 9); } while (s <= m % 10);
+  const back = m - 10, rest = s - back;
+  return { type: 'zehner', title: 'Rechne über den Zehner!', steps: [{
+    html: `<div class="eq">${m} − ${s} = ${B('r')}</div>`, blanks: [{ id: 'r', ans: m - s }],
+    hint: [`${tenField(m, s, '-')}<p>Erst zurück bis 10: ${m} − <b>${back}</b> = 10. Dann noch <b>${rest}</b> weg.</p>`,
+           `<p>${m} − ${back} − ${rest} = 10 − ${rest} = <b>${m - s}</b></p>`] }] };
+}
+
+function genPlatzhalter(L) {
+  const forms = L === 1 ? ['x+b', 'a+x'] : ['x+b', 'a+x', 'x-b', 'a-x'];
+  const f = pickOne(forms);
+  let a, b; do { a = ri(2, 9); b = ri(2, 9); } while (a + b <= 10 || a + b > 18);
+  const c = a + b;
+  const step = (html, ans, h1, h2) => ({ type: 'platzhalter', title: 'Rechne mit Platzhalter!', steps: [{ html: `<div class="eq">${html}</div>`, blanks: [{ id: 'r', ans }], hint: [h1, h2] }] });
+  if (f === 'x+b') return step(`${B('r')} + ${b} = ${c}`, a, `<p>Welche Zahl plus ${b} gibt ${c}?<br>Rechne rückwärts: <b>${c} − ${b}</b></p>`, `<p>${c} − ${b} = <b>${a}</b>, denn ${a} + ${b} = ${c}</p>`);
+  if (f === 'a+x') return step(`${a} + ${B('r')} = ${c}`, b, `<p>Von ${a} bis ${c}: wie viele fehlen?<br>Rechne: <b>${c} − ${a}</b></p>`, `<p>${c} − ${a} = <b>${b}</b>, denn ${a} + ${b} = ${c}</p>`);
+  let m, s; do { m = ri(11, 19); s = ri(2, 9); } while (m - s < 2);
+  const r = m - s;
+  if (f === 'x-b') return step(`${B('r')} − ${s} = ${r}`, m, `<p>Welche Zahl minus ${s} gibt ${r}?<br>Rechne rückwärts: <b>${r} + ${s}</b></p>`, `<p>${r} + ${s} = <b>${m}</b>, denn ${m} − ${s} = ${r}</p>`);
+  return step(`${m} − ${B('r')} = ${r}`, s, `<p>Von ${m} zurück bis ${r}: wie viele weg?<br>Rechne: <b>${m} − ${r}</b></p>`, `<p>${m} − ${r} = <b>${s}</b>, denn ${m} − ${s} = ${r}</p>`);
+}
+
+function genUmkehr(L) {
+  const minus = L >= 2 && Math.random() < 0.5;
+  let a, b; do { a = ri(3, 14); b = ri(2, 9); } while (a + b > 20);
+  const c = a + b;
+  if (!minus) return { type: 'umkehr', title: 'Rechne und bilde die Umkehraufgabe!', steps: [
+    { html: `<div class="eq">${a} + ${b} = ${B('r1')}</div>`, blanks: [{ id: 'r1', ans: c }], hint: [`<p>Rechne ${a} + ${b}.</p>`, `<p>${a} + ${b} = <b>${c}</b></p>`] },
+    { html: `<div class="eq sub">Umkehraufgabe: ${c} <span class="opslot">?</span> ${b} = ${B('r2')}</div>`, choice: { options: [{ label: '+', ok: false }, { label: '−', ok: true }] }, blanks: [{ id: 'r2', ans: a }],
+      hint: [`<p>Die Umkehraufgabe rechnet <b>zurück</b>.<br>Aus <b>+</b> wird <b>−</b>.</p>`, `<p>${c} − ${b} = <b>${a}</b> — wir sind wieder bei ${a}!</p>`] }] };
+  return { type: 'umkehr', title: 'Rechne und bilde die Umkehraufgabe!', steps: [
+    { html: `<div class="eq">${c} − ${b} = ${B('r1')}</div>`, blanks: [{ id: 'r1', ans: a }], hint: [`<p>Rechne ${c} − ${b}.</p>`, `<p>${c} − ${b} = <b>${a}</b></p>`] },
+    { html: `<div class="eq sub">Umkehraufgabe: ${a} <span class="opslot">?</span> ${b} = ${B('r2')}</div>`, choice: { options: [{ label: '+', ok: true }, { label: '−', ok: false }] }, blanks: [{ id: 'r2', ans: c }],
+      hint: [`<p>Die Umkehraufgabe rechnet <b>zurück</b>.<br>Aus <b>−</b> wird <b>+</b>.</p>`, `<p>${a} + ${b} = <b>${c}</b> — wir sind wieder bei ${c}!</p>`] }] };
+}
+
+function genWelche(L) {
+  const kinds = L === 1 ? ['vorg', 'nachf'] : L === 2 ? ['vorg', 'nachf', 'vorgZE', 'nachfZE'] : ['vorg', 'nachf', 'vorgZE', 'nachfZE', 'doppelt', 'groesser', 'kleiner'];
+  const k = pickOne(kinds);
+  const mk = (text, ans, h1, h2) => ({ type: 'welche', title: 'Welche Zahl ist es?',
+    head: `<div class="wtext">${text}</div>`,
+    steps: [{ html: `<div class="eq sub">Die Zahl ist ${B('r')}</div>`, blanks: [{ id: 'r', ans }], hint: [h1, h2] }] });
+  const ruleV = `<p>Der <b>Vorgänger</b> kommt <b>vor</b> der Zahl.<br>Die Zahl ist also <b>1 mehr</b>.</p>`;
+  const ruleN = `<p>Der <b>Nachfolger</b> kommt <b>nach</b> der Zahl.<br>Die Zahl ist also <b>1 weniger</b>.</p>`;
+  if (k === 'vorg') { const n = ri(10, 98); return mk(`Der Vorgänger ist ${n}.`, n + 1, nline([[n, 'Vorgänger'], ['?', 'die Zahl', 1], [n + 2, 'Nachfolger']]) + ruleV, `<p>${n} + 1 = <b>${n + 1}</b></p>`); }
+  if (k === 'nachf') { const n = ri(11, 99); return mk(`Der Nachfolger ist ${n}.`, n - 1, nline([[n - 2, 'Vorgänger'], ['?', 'die Zahl', 1], [n, 'Nachfolger']]) + ruleN, `<p>${n} − 1 = <b>${n - 1}</b></p>`); }
+  if (k === 'vorgZE' || k === 'nachfZE') {
+    let z, e, v; do { z = ri(1, 8); e = ri(0, 9); v = z * 10 + e; } while (v < 11 || v > 98);
+    const vorg = k === 'vorgZE', ans = vorg ? v + 1 : v - 1;
+    return mk(`Der ${vorg ? 'Vorgänger' : 'Nachfolger'} hat ${z} Zehner und ${e} Einer.`, ans,
+      `${tensOnes(z, e)}<p>${z} Zehner und ${e} Einer = <b>${v}</b>.</p>` + (vorg ? ruleV : ruleN),
+      `<p>Der ${vorg ? 'Vorgänger' : 'Nachfolger'} ist ${v}. ${v} ${vorg ? '+' : '−'} 1 = <b>${ans}</b></p>`);
+  }
+  if (k === 'doppelt') { const n = pickOne([10, 15, 20, 25, 30, 35, 40, 45, 50]), d = 2 * n;
+    return mk(`Der Nachfolger ist doppelt so groß wie ${n}.`, d - 1,
+      `<p>Doppelt so groß wie ${n}: ${n} + ${n} = <b>${d}</b>.<br>${d} ist der <b>Nachfolger</b>.</p>` + ruleN, `<p>${d} − 1 = <b>${d - 1}</b></p>`); }
+  if (k === 'groesser') { const n = ri(12, 80), d = ri(2, 10);
+    return mk(`Die Zahl ist ${d} größer als ${n}.`, n + d,
+      `<p><b>größer</b> heißt <b>plus</b>: ${n} + ${d}</p>`, `<p>${n} + ${d} = <b>${n + d}</b></p>`); }
+  const n = ri(15, 90), d = ri(2, 9);
+  return mk(`Die Zahl ist ${d} kleiner als ${n}.`, n - d,
+    `<p><b>kleiner</b> heißt <b>minus</b>: ${n} − ${d}</p>`, `<p>${n} − ${d} = <b>${n - d}</b></p>`);
+}
+
+function genMauer(L) {
+  const n = L >= 3 ? 4 : 3;
+  let base, rows;
+  for (;;) {
+    base = Array.from({ length: n }, () => ri(n === 4 ? 0 : 1, n === 4 ? 5 : 7));
+    rows = [base]; while (rows[rows.length - 1].length > 1) { const p = rows[rows.length - 1]; rows.push(p.slice(1).map((v, i) => p[i] + v)); }
+    if (rows[rows.length - 1][0] <= (n === 4 ? 30 : 20)) break;
+  }
+  // índice linear das células
+  const idx = []; const vals = []; rows.forEach((r, ri_) => { idx.push(r.map(v => { vals.push(v); return vals.length - 1; })); });
+  const rels = []; for (let r = 1; r < rows.length; r++) for (let i = 0; i < rows[r].length; i++) rels.push([idx[r - 1][i], idx[r - 1][i + 1], idx[r][i]]);
+  const upper = idx.slice(1).flat(), all = idx.flat();
+  const hidden = L === 1 ? upper.slice() : L === 2 ? hideCells(vals, rels, 3, all, pickOne(idx[0])) : hideCells(vals, rels, 5, all, pickOne(idx[0]));
+  const order = solveOrder(vals, rels, hidden);
+  let html = '<div class="wall">';
+  for (let r = rows.length - 1; r >= 0; r--) html += `<div class="wrow">${idx[r].map(i => `<div class="brick">${hidden.includes(i) ? B('c' + i) : vals[i]}</div>`).join('')}</div>`;
+  html += '</div>';
+  return { type: 'mauer', title: 'Fülle die Rechenmauer aus!', steps: [{ html, blanks: order.map(o => ({ id: 'c' + o.i, ans: vals[o.i], h2: `<p>${o.h}</p>` })),
+    hint: [`<p>Zwei Steine nebeneinander ergeben <b>zusammen</b> den Stein darüber.<br>Fehlt unten ein Stein: oben <b>minus</b> den Nachbarn.</p>`, ''] }] };
+}
+
+function genDreieck(L) {
+  let a, b, c; do { a = ri(1, 9); b = ri(1, 9); c = ri(1, 9); } while (a + b > 18 || a + c > 18 || b + c > 18);
+  // índices: 0 topo, 1 baixo-esq, 2 baixo-dir, 3 lado esq (0+1), 4 lado dir (0+2), 5 base (1+2)
+  const vals = [a, b, c, a + b, a + c, b + c];
+  const rels = [[0, 1, 3], [0, 2, 4], [1, 2, 5]];
+  const hidden = L === 1 ? [3, 4, 5] : L === 2 ? hideCells(vals, rels, 3, [0, 1, 2, 3, 4, 5], pickOne([0, 1, 2])) : hideCells(vals, rels, 4, [0, 1, 2, 3, 4, 5], pickOne([0, 1, 2]));
+  const order = solveOrder(vals, rels, hidden);
+  const cell = i => hidden.includes(i) ? B('c' + i) : `<span class="given">${vals[i]}</span>`;
+  const html = `<div class="tri"><svg viewBox="0 0 300 300" aria-hidden="true"><polygon points="150,18 282,246 18,246"/><line x1="150" y1="170" x2="150" y2="246"/><line x1="150" y1="170" x2="84" y2="132"/><line x1="150" y1="170" x2="216" y2="132"/></svg>
+    <div class="tin t0">${cell(0)}</div><div class="tin t1">${cell(1)}</div><div class="tin t2">${cell(2)}</div>
+    <div class="tout o3">${cell(3)}</div><div class="tout o4">${cell(4)}</div><div class="tout o5">${cell(5)}</div></div>`;
+  return { type: 'dreieck', title: 'Löse das Rechendreieck!', steps: [{ html, blanks: order.map(o => ({ id: 'c' + o.i, ans: vals[o.i], h2: `<p>${o.h}</p>` })),
+    hint: [`<p>Die Zahl <b>außen</b> ist immer die Summe der <b>zwei Zahlen innen</b> daneben.<br>Fehlt innen eine Zahl: außen <b>minus</b> die andere.</p>`, ''] }] };
+}
+
+function genGeschichte(L) {
+  const [name, pron] = pickOne(PEOPLE); const Pron = pron[0].toUpperCase() + pron.slice(1);
+  const money = L === 1 ? false : L === 2 ? Math.random() < 0.5 : true;
+  let items, total;
+  for (;;) {
+    const cnt = L === 1 ? 2 : L === 2 ? ri(2, 3) : 3;
+    items = shuffle(SHOP).slice(0, cnt).map(it => ({ ...it, q: it.id === 'postkarte' ? ri(1, 3) : 1 }));
+    total = items.reduce((s, it) => s + it.price * it.q, 0);
+    if (money ? (total >= 6 && total <= 18) : total <= 20) break;
+  }
+  const phrase = it => it.id === 'postkarte' ? (it.q === 1 ? 'eine Postkarte' : `${NUMWORD[it.q]} Postkarten`) : ACC[it.id];
+  const list = items.map(phrase); const text = `${name} kauft ${list.slice(0, -1).join(', ')} und ${list[list.length - 1]}.`;
+  const q = money ? `${Pron} hat 20 € dabei. Wie viel Euro bekommt ${pron} zurück?` : `Wie viel muss ${pron} bezahlen?`;
+  const shop = `<div class="shop">${SHOP.map(it => `<div class="ware"><span>${it.emoji}</span><b>${it.name}</b><em>${it.price} €</em></div>`).join('')}</div>`;
+  const parts = items.map(it => it.price * it.q);
+  const steps = [{
+    html: `<div class="eq sub"><span class="tag">R:</span> ${items.map((_, i) => B('p' + i) + ' €').join(' + ')} = ${B('t')} €</div>`,
+    blanks: [...items.map((it, i) => ({ id: 'p' + i, ans: it.price * it.q, h2: `<p>${it.q > 1 ? `${NUMWORD[it.q]} Postkarten: ${Array(it.q).fill('1 €').join(' + ')}` : `${it.name}: ${it.price} €`} = <b>${it.price * it.q} €</b></p>` })),
+             { id: 't', ans: total, h2: `<p>${parts.join(' + ')} = <b>${total}</b></p>` }],
+    hint: [`<p>Schau auf die <b>Preisschilder</b> im Laden.<br>Erst jeden Preis, dann <b>alles zusammen</b>.</p>`, ''] }];
+  if (money) steps.push({
+    html: `<div class="eq sub"><span class="tag">R:</span> 20 € − ${B('t2')} € = ${B('z')} €</div>`,
+    blanks: [{ id: 't2', ans: total, h2: `<p>Sie bezahlt <b>${total} €</b> (das hast du gerade gerechnet).</p>` }, { id: 'z', ans: 20 - total, h2: `<p>20 − ${total} = <b>${20 - total}</b></p>` }],
+    hint: [`<p>${name} gibt <b>20 €</b> und bezahlt <b>${total} €</b>.<br>Was übrig bleibt, bekommt ${pron} <b>zurück</b> → <b>minus</b>!</p>`, ''] });
+  const opts = money
+    ? [{ label: `${name} bekommt ${20 - total} € zurück.`, ok: true }, { label: `${name} muss 20 € bezahlen.`, ok: false }, { label: `${name} bekommt ${total} € zurück.`, ok: false }]
+    : [{ label: `${name} muss ${total} € bezahlen.`, ok: true }, { label: `${name} bekommt ${total} € zurück.`, ok: false }, { label: `${name} muss ${total + pickOne([1, 2, 3])} € bezahlen.`, ok: false }];
+  steps.push({ html: `<div class="eq sub"><span class="tag">A:</span> Welcher Antwortsatz passt?</div>`, answer: true, choice: { options: shuffle(opts) }, blanks: [],
+    hint: [`<p>Lies die Frage noch einmal:<br><b>${q}</b></p>`, ''] });
+  return { type: 'geschichte', title: 'Rechengeschichte', head: `${shop}<div class="wtext story">${text}<br><b>F:</b> ${q}</div>`, steps };
+}
+const GENS = { zehner: genZehner, platzhalter: genPlatzhalter, umkehr: genUmkehr, welche: genWelche, mauer: genMauer, dreieck: genDreieck, geschichte: genGeschichte };
+
+// ---- motor ----
+let M = null;
+function pickMathType() {
+  if (window.__forceMath) return window.__forceMath;           // só para testes
+  const en = Object.keys(MATH_TYPES).filter(k => (P.settings.mathTypes || {})[k] !== false);
+  const pool = en.length ? en : Object.keys(MATH_TYPES);
+  const cand = pool.filter(k => k !== G.lastType);
+  const list = cand.length ? cand : pool;
+  const w = list.map(k => { const s = mstat(k); return (1 + s.m * 1.5) / (1 + s.c * 0.3); });
+  let r = Math.random() * w.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < list.length; i++) { r -= w[i]; if (r <= 0) return list[i]; }
+  return list[list.length - 1];
+}
+
+function nextMathRound() {
+  if (sessionOver()) return endSession();
+  const ty = pickMathType(); G.lastType = ty;
+  const task = GENS[ty](G.level);
+  $('mside').classList.remove('hide'); $('mtask').scrollTop = 0;
+  M = { task, step: -1, blanks: [], active: null, typed: '', errs: 0, blankErrs: 0, choiceDone: false };
+  mstat(ty).s++;
+  renderDots();
+  $('mtitle').textContent = task.title;
+  $('mhead').innerHTML = task.head || '';
+  $('msteps').innerHTML = '';
+  $('mhint').innerHTML = ''; $('mhint').classList.remove('on');
+  $('mtask').classList.toggle('wide', ty === 'geschichte');
+  nextStep();
+}
+
+function nextStep() {
+  M.step++;
+  if (M.step >= M.task.steps.length) return mathSuccess();
+  const st = M.task.steps[M.step];
+  const div = document.createElement('div'); div.className = 'mstep pop'; div.innerHTML = st.html; $('msteps').appendChild(div);
+  M.stepEl = div; M.blankErrs = 0; M.choiceDone = !st.choice;
+  M.blanks = st.blanks.map(b => ({ ...b, el: div.querySelector(`[data-b="${b.id}"]`), done: false }));
+  M.blanks.forEach(b => b.el.addEventListener('click', () => { if (M.choiceDone && !b.done) setActive(b); }));
+  $('mhint').classList.remove('on');
+  if (st.choice) {
+    const box = document.createElement('div'); box.className = st.answer ? 'mchoice answers' : 'mchoice';
+    st.choice.options.forEach(o => {
+      const btn = document.createElement('button'); btn.textContent = o.label;
+      btn.addEventListener('click', () => chooseOpt(btn, o, st));
+      box.appendChild(btn);
+    });
+    div.appendChild(box);
+    $('keypad').classList.add('off');
+    $('mside').classList.toggle('hide', !!st.answer);
+    setActive(null);
+  } else {
+    $('keypad').classList.remove('off'); $('mside').classList.remove('hide');
+    setActive(M.blanks.find(b => !b.done));
+  }
+  later(() => div.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 80);
+  M.locked = false;
+}
+
+function setActive(b) {
+  M.blanks.forEach(x => x.el.classList.toggle('active', x === b));
+  M.active = b; M.typed = ''; if (b) renderBlank(b);
+}
+function renderBlank(b) { b.el.textContent = M.typed; b.el.classList.toggle('typed', !!M.typed); }
+
+function showHint(st, blank) {
+  const lvl = Math.min(M.blankErrs, 2);
+  const h = lvl >= 2 ? st.hint[0] + ((blank && blank.h2) || st.hint[1] || '') : st.hint[0];
+  $('mhint').innerHTML = `<div class="hicon">💡</div><div>${h}</div>`; $('mhint').classList.add('on');
+}
+
+function chooseOpt(btn, o, st) {
+  if (M.locked || M.choiceDone) return;
+  if (o.ok) {
+    btn.classList.add('ok'); sfx.yes();
+    const slot = M.stepEl.querySelector('.opslot'); if (slot) { slot.textContent = o.label; slot.classList.add('set'); }
+    M.choiceDone = true;
+    later(() => {
+      if (!st.answer) { const box = M.stepEl.querySelector('.mchoice'); if (box) box.remove(); }
+      else M.stepEl.querySelectorAll('.mchoice button:not(.ok)').forEach(x => x.classList.add('gone'));
+      $('mhint').classList.remove('on');
+      if (M.blanks.length) { $('keypad').classList.remove('off'); M.blankErrs = 0; setActive(M.blanks.find(b => !b.done)); }
+      else nextStep();
+    }, 450);
+  } else {
+    M.errs++; M.blankErrs++; mstat(M.task.type).m++; save();
+    btn.classList.add('nope'); sfx.soft(); showHint(st, null);
+  }
+}
+
+function keyPress(k) {
+  if (!M || M.locked || !M.choiceDone || !M.active) return;
+  const b = M.active;
+  if (k === 'del') { M.typed = M.typed.slice(0, -1); renderBlank(b); return; }
+  if (k === 'ok') return checkBlank();
+  if (M.typed.length >= 3) return;
+  M.typed += k; renderBlank(b); tone(520 + Number(k) * 30, 0, .06, 'sine', .05);
+}
+
+function checkBlank() {
+  const b = M.active, st = M.task.steps[M.step];
+  if (!M.typed) return;
+  if (Number(M.typed) === b.ans) {
+    b.done = true; b.el.textContent = b.ans; b.el.classList.remove('active', 'typed', 'ghost'); b.el.classList.add('ok');
+    sfx.yes(); M.blankErrs = 0; $('mhint').classList.remove('on');
+    const nb = M.blanks.find(x => !x.done);
+    if (nb) setActive(nb); else { M.locked = true; setActive(null); later(nextStep, 500); }
+  } else {
+    M.errs++; M.blankErrs++; mstat(M.task.type).m++; save();
+    sfx.soft(); b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
+    M.typed = ''; renderBlank(b);
+    if (M.blankErrs >= 2) { b.el.dataset.ghost = b.ans; b.el.classList.add('ghost'); }
+    showHint(st, b);
+  }
+}
+
+function mathSuccess() {
+  const first = M.errs === 0;
+  M.locked = true;
+  $('keypad').classList.add('off');
+  if (first) {
+    G.stars++; mstat(M.task.type).c++; G.okStreak++; G.errStreak = 0;
+    if (G.okStreak >= 3) { G.okStreak = 0; if (G.level < MATH_LEVELS) G.level++; }
+    flyStar($('mtask'));
+  } else {
+    G.okStreak = 0; G.errStreak++;
+    if (G.errStreak >= 2) { G.errStreak = 0; if (G.level > 1) G.level--; }
+  }
+  save();
+  G.results.push(first ? 'star' : 'done'); G.round++;
+  cheer(first ? t().cheers[Math.floor(Math.random() * t().cheers.length)] : '👍');
+  later(() => { updateStars(); renderDots(); }, 550);
+  later(nextMathRound, 1700);
+}
+
+// teclado
+(() => {
+  const kp = $('keypad');
+  ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'].forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = 'key' + (k === 'ok' ? ' kok' : k === 'del' ? ' kdel' : '');
+    btn.textContent = k === 'del' ? '⌫' : k === 'ok' ? '✓' : k;
+    btn.addEventListener('click', () => keyPress(k));
+    kp.appendChild(btn);
+  });
+})();
+
 /* ---------- parents mode ---------- */
 function voiceButtons() {
   const code = lang() === 'de' ? 'de-DE' : 'pt-BR';
@@ -919,7 +1375,13 @@ function levelInfo(L) {
   const sent = ns.length ? `Frases ${L <= 2 ? 'curtas (até 4 palavras)' : 'de todos os tamanhos'}: ${fmt(sMs(Math.min(...ns)))} a ${fmt(sMs(Math.max(...ns)))} na tela.` : '';
   return `<b>Nível ${L}:</b> a palavra fica <b>${fmt(ms)}</b> na tela; ${words}; ${opts}. ${sent}`;
 }
-let diffOpen = false;
+let diffOpen = false, mathOpen = false;
+function mathLevelInfo(L) {
+  return ['',
+    '<b>Nível 1:</b> só somas passando a dezena (8 + 5); número que falta só com +; antecessor/sucessor ("Der Vorgänger ist 57"); muro e triângulo: só somar para achar os de cima/de fora; lojinha com 2 coisas, só o total.',
+    '<b>Nível 2:</b> entra a subtração (14 − 6) e a conta inversa com −; dezenas e unidades ("5 Zehner und 6 Einer"); muro e triângulo com um número faltando embaixo/dentro (precisa subtrair); lojinha às vezes com troco de 20 €.',
+    '<b>Nível 3:</b> "doppelt so groß wie", "5 größer/kleiner als"; muro de 4 andares; triângulo com mais números faltando; lojinha com 3 coisas e sempre com troco.'][L];
+}
 function openParents() {
   const s = P.settings;
   const seg = (key, opts) => `<div class="seg" data-key="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(s[key]) === String(v) ? 'sel' : ''}">${l}</button>`).join('')}</div>`;
@@ -947,6 +1409,19 @@ function openParents() {
     </div>
     <h3>Conteúdo</h3>${seg('content', [['mix', 'Palavras + frases'], ['words', 'Só palavras'], ['sentences', 'Só frases']])}
     <div class="explain">${s.content === 'mix' ? 'Cerca de 1 em cada 3 rodadas é uma frase; as outras são palavras soltas.' : s.content === 'words' ? 'Só palavras soltas: treina reconhecer a palavra rápido.' : 'Só frases: depois da frase aparecem 4 cenas; as erradas trocam quem faz a ação ou o objeto, então é preciso ler a frase toda.'}</div>
+    <h3>Rechnen (matemática)</h3>
+    ${seg('mathStart', [[1, 'Nível 1'], [2, 'Nível 2'], [3, 'Nível 3']])}
+    <div class="explain">${mathLevelInfo(s.mathStart)}
+      <details id="mathMore"${mathOpen ? ' open' : ''}>
+        <summary>Tipos de exercício e resultados</summary>
+        <div class="more">
+          <div class="muted" style="margin-bottom:6px">Toque para ligar/desligar. Os que ela mais erra aparecem com mais frequência.</div>
+          <div class="seg" id="mtypes">${Object.entries(MATH_TYPES).map(([k, v]) => `<button data-mt="${k}" class="${(s.mathTypes || {})[k] !== false ? 'sel' : ''}">${v.de}</button>`).join('')}</div>
+          <table style="margin-top:10px"><tr><th>Tipo</th><th>Vistos</th><th>De primeira</th><th>Erros</th></tr>${Object.entries(MATH_TYPES).map(([k, v]) => { const x = (P.stats.math || {})[k] || { s: 0, c: 0, m: 0 }; return `<tr><td>${v.de}<br><span class="muted">${v.pt}</span></td><td>${x.s}</td><td>${x.c}</td><td>${x.m}</td></tr>`; }).join('')}</table>
+          <div style="margin-top:6px">Como no Lesen: sobe 1 nível após 3 exercícios certos de primeira e desce após 2 com erro. Na próxima vez começa 1 nível abaixo de onde parou.</div>
+        </div>
+      </details>
+    </div>
     <h3>Sessão</h3>${seg('rounds', [[5, '5 rodadas'], [10, '10 rodadas'], [15, '15 rodadas']])}
     <div style="height:8px"></div>${seg('maxMin', [[3, 'máx. 3 min'], [5, 'máx. 5 min'], [8, 'máx. 8 min']])}
     <div class="explain">A sessão termina no que vier primeiro: ${s.rounds} rodadas ou ${s.maxMin} minutos.</div>
@@ -964,6 +1439,12 @@ function openParents() {
     <div class="row"><button class="danger" id="resetBtn">Zerar progresso</button></div>`;
   $('sheet').querySelectorAll('.seg').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.mt) {
+      const mt = Object.assign({}, P.settings.mathTypes); const on = mt[b.dataset.mt] !== false;
+      const active = Object.keys(MATH_TYPES).filter(k => mt[k] !== false);
+      if (on && active.length <= 1) return;                       // pelo menos um tipo ligado
+      mt[b.dataset.mt] = !on; P.settings.mathTypes = mt; save(); openParents(); return;
+    }
     if (b.dataset.rec) {
       P.settings.rec = Object.assign({}, P.settings.rec, { [lang()]: b.dataset.rec });
       save(); speakHello(); prefetchVoice(); openParents();
@@ -981,10 +1462,12 @@ function openParents() {
     if (v === 'true' || v === 'false') v = v === 'true'; else if (!isNaN(Number(v))) v = Number(v);
     P.settings[key] = v;
     if (key === 'startLevel') { P.level[s.lang] = null; P.ms[s.lang] = null; }
+    if (key === 'mathStart') P.mathLevel = null;
     save(); applyTheme(); openParents();
   }));
   $('resetBtn').onclick = () => { if (confirm('Apagar estrelas, recordes e estatísticas?')) { const keep = P.settings; P = clone(DEFAULTS); P.settings = keep; save(); openParents(); } };
   $('wordsBtn').onclick = openWordList;
+  $('mathMore').addEventListener('toggle', e => { mathOpen = e.target.open; });
   $('diffMore').addEventListener('toggle', e => { diffOpen = e.target.open; });
   $('updNow').onclick = e => { e.preventDefault(); checkUpdate(true); };
   $('photoPick').onclick = pickPhoto;
@@ -1004,15 +1487,16 @@ function openParents() {
 })();
 
 /* ---------- wiring ---------- */
-$('startBtn').addEventListener('click', startSession);
+$('startBtn').addEventListener('click', () => startSession('read'));
+$('mathBtn').addEventListener('click', () => startSession('math'));
 $('camBtn').addEventListener('click', pickPhoto);
-$('againBtn').addEventListener('click', startSession);
+$('againBtn').addEventListener('click', () => startSession(G ? G.mode : 'read'));
 $('homeBtn').addEventListener('click', () => { clearTimers(); try { speechSynthesis.cancel(); } catch (e) {} renderHome(); });
 $('hear').addEventListener('click', e => { e.stopPropagation(); if (G && G.target) speakWord(G.target); });
 document.addEventListener('gesturestart', e => e.preventDefault());
 
 // debug hook for testing
-window.__lesespiel = { get G() { return G; }, get P() { return P; } };
+window.__lesespiel = { get G() { return G; }, get P() { return P; }, get M() { return M; } };
 
 renderHome();
 prefetchVoice();

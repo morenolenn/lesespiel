@@ -18,6 +18,22 @@ Jogo de leitura para iPad que treina reconhecer palavras e frases rápido (mesmo
 - **Sessão:** 10 rodadas ou 5 minutos (ajustável).
 - **Modo pais:** segure a ⚙️ por 1 segundo.
 
+## Rechnen (matemática)
+
+Na home, **🔢 Rechnen** abre os exercícios de matemática, baseados nas provas e no livro do 2º ano (sem copiar páginas nem ilustrações). Ela digita a resposta num teclado numérico. Os enunciados **não** são lidos em voz alta, de propósito.
+
+| Tipo | Exemplo | Dica quando erra |
+|---|---|---|
+| Über den Zehner | 8 + 5, 14 − 6 | campo de 20 bolinhas e "primeiro até o 10" |
+| Platzhalter | __ + 5 = 13, 15 − __ = 6 | "calcule ao contrário" |
+| Umkehraufgabe | 12 + 5 = 17 → 17 − 5 = 12 | escolher + ou −, "aus + wird −" |
+| Welche Zahl ist es? | "Der Vorgänger ist 57." → 58 | reta numérica com Vorgänger / Zahl / Nachfolger |
+| Rechenmauer | muro de 3 ou 4 andares | "dois tijolos juntos dão o de cima" |
+| Rechendreieck | triângulo com somas nos lados | "fora = soma dos dois de dentro" |
+| Rechengeschichte | lojinha: R (preços + total), troco de 20 €, A (frase certa) | ler a pergunta de novo |
+
+Níveis 1 a 3, com o mesmo ajuste automático do Lesen. No modo pais dá para ligar e desligar cada tipo e ver os acertos.
+
 ## Arquivos
 
 | Arquivo | O que é |
@@ -47,9 +63,9 @@ Jogo de leitura para iPad que treina reconhecer palavras e frases rápido (mesmo
 ## Publicar uma atualização
 
 1. Aumente a versão em **três** lugares, com o mesmo número:
-   - `index.html` → `const APP_VERSION = 12;`
-   - `version.json` → `{"v":12}`
-   - `sw.js` → `const CACHE = 'lesespiel-v12';`
+   - `index.html` → `const APP_VERSION = 13;`
+   - `version.json` → `{"v":13}`
+   - `sw.js` → `const CACHE = 'lesespiel-v13';`
 2. `git add -A && git commit -m "..." && git push`
 3. Em ~1 minuto está no ar. O iPad se atualiza sozinho ao abrir ou voltar para o app (confira em Modo pais → "Versão N").
 
